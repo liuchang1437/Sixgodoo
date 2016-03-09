@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}my_navi.html{% endblock %}
+{% block body %}
+<h1>This is my navigation page.</h1>
+{% endblock %}

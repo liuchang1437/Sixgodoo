@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X_UA_Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no"/>
+	<meta name="description" content="sixgodoo's personal website"/>
+	<meta name="author" content="Liu Chang" />
+	<link rel="icon" href="static/icon.jpg")/>
+	<title>Sixgodoo</title>
+  	<link href={{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }} rel="stylesheet">
+
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+	</script>
+	<![endif]-->
+	<style>
+	article, aside, details, figcaption, figure, footer, header, hgroup,
+	menu, nav, section
+	{
+		display: block;				
+	}
+	</style>
+	<title>{% block title %}{% endblock %}</title>
+	{% block head %}{% endblock %}
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <ul>
+    {% for message in messages %}
+        <li>{{ message }} </li>
+    {% endfor %}
+    </ul>
+    </div>
+    {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
+ 	<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src={{url_for('static',filename='jquery.min.css')}}></script>
+    <script src={{url_for('static',filename='bootstrap/js/bootstrap.min.js')}}></script>
+    {{moment.include_moment()}}
+</body>
+</html>
