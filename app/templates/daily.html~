@@ -1,15 +1,8 @@
 {% extends "new_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% import "_macros.html" as macros %}
 
-{% block head%}
-{{super()}}
-<style>
- .my-page-my{
- 	display:block;
- }
-</style>
-{% endblock%}
+
+
 
 {%block nav%}
 <li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
