@@ -27,6 +27,7 @@ body{
 .fa{
 	display:inline-block;
 	font:normal normal normal 14px/1 FontAwesome;
+	font-size:inherit;
 	text-rendering:auto;
 	-webkit-font-smoothing:antialiased;
 	transform:translate(0,0);
@@ -78,7 +79,23 @@ h1,h2,h3,h4,h5,h6{
 	margin-bottom:0;
 	border-top:1px solid #303030;
 }
-
+#back-to-top
+i{
+	width:30px;
+	height:30px;
+	line-height:30px;
+}
+#back-to-top
+{
+	position:fixed;
+	right:10px;
+	bottom:10px;
+	background:rgba(39,174,96,0.6);
+	color:#ffffff;
+	text-align:center;
+	border-radius:2px;
+	z-index:1;
+}
 a{
  color:#555;
 }
