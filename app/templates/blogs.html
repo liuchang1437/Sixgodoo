@@ -1,77 +1,60 @@
-{% extends "base.html" %}
-{% block title %}Blogs{% endblock %}
-{% block head %}
-	<style>
-	.timeline{
-	border-bottom:2px dotted #d6d6d6;
-	line-height:1.8;
-	}
-	.timeline-head{
-	padding-left:12px;
-	padding-bottom:8px;
-	padding-top:10px
-	}
-	.timeline-main{
-	margin-left:18px;
-	padding-left:0.8em;
-	border-left:1px dotted #6A5ACD;
+{% extends "new_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-	}
-	</style>
-{% endblock %}
+{%block nav%}
+<li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
+<li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>全部</a></li>
+{% for cat in categories %}
+	<li role="presentation"><a href={{url_for('main.category',cat_id=cat.id)}}>{{cat.name}}</a></li>
+{% endfor %}
+<li role="presentation"><a href={{url_for('main.about')}}>关于</a></li>
+<li role="presentation" class="dropdown">
+	<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+	<ul class="dropdown-menu">
+    	<li><a href={{url_for('main.new_blog')}}>新博客</a></li>
+    	<li><a href={{url_for('main.new_cat')}}>新目录</a></li>
+  	</ul>				
+</li>
+{%endblock%}
+
+
 {% block body %}
-<div class="page-header row">
-	<div class="col-md-4 col-md-offset-3"><h1>{{title}}</h1></div>
-</div>
-
-<div class="center-block row">
-	<div class="col-md-6 col-md-offset-3">
-		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation"><a href={{url_for('main.index')}}><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
-			<li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
-			<li role="presentation" class="dropdown active">
-	  		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">博客<span class="caret"></span></a>
-  				<ul class="dropdown-menu">
-					<li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>全部</a></li>
-					{% for cat in categories %}
-					<li role="presentation"><a href={{url_for('main.category',cat_id=cat.id)}}>{{cat.name}}</a></li>
-					{% endfor %}
-  				</ul>
-			<li role="presentation"><a href={{url_for('main.about')}}>关于</a></li>
-			<li role="presentation" class="dropdown">
-	  		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
-  				<ul class="dropdown-menu">
-    				<li><a href={{url_for('main.new_blog')}}>新博客</a></li>
-    				<li><a href={{url_for('main.new_cat')}}>新目录</a></li>
-    				
-  				</ul>
-			</ul>
-	</div>
-</div>
-
-
-<div class="row">
-<div class="col-md-6 col-md-offset-3">
-	<p></p>
+{{super()}}
 	{% if blogs %}
 	{% for blog in blogs %}
-	<div class="media timeline">
-		<div class="media-body">
-			<div class="media-heading timeline-head">
-				<p><a href="{{ url_for('main.article',blog_id=blog.id) }}">{{ blog.title }}</a></p>
-			</div>
-			<div class="timeline-main">
-			<p>{{blog.abstract }}</p>
-			</div>
-			<div class="timeline-head">
-			<p>{{ moment(blog.timestamp).fromNow(refresh=True) }}</p>
-			<p><span class="label label-info">{{ blog.category.name }}</span></p>
-			
+	<section class="content-wrap">
+		<div class="container">
+			<div class="row">
+				<main class="col-md-8 col-md-offset-2 main-content">
+					<article id="2" class="post tag-https">
+						<header class="post-head">
+							<a href={{url_for('main.article',blog_id=blog.id)}}><h1 class="post-title">{{ blog.title }}</h1></a>
+							<section class="post-meta">
+							<p>{{ moment(blog.timestamp).fromNow(refresh=True) }}</p>
+							</section>
+						</header>
+						<div style="padding-bottom:10px;">
+							{%if single %}
+								<p>摘要：{{ blog.abstract }}</p>
+								<p>{{blog.text}}</p>
+							{% else %}
+								<p>{{ blog.abstract }}</p>
+							{%endif%}
+							<div class="row">
+    							<div class="col-sm-1">
+									<a href={{url_for('main.category',cat_id=blog.category.id)}}><p><span class="label label-info">{{ blog.category.name }}</span></p></div>
+								<div class="col-sm-1" style="padding-left:15px;">
+									<a href={{url_for('main.edit_blog',blog_id=blog.id)}} class="btn btn-default btn-xs" role="button">编辑</a>
+								</div>
+							</div>
+						</div>
+					</article>
+				</main>
 			</div>
 		</div>
-	</div>
+	</section>
 	{% endfor %}
 	{% endif %}
-</div>
-</div>
 {% endblock %}
+
+

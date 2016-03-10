@@ -1,79 +1,62 @@
-{% extends "base.html" %}
-{% from "_formhelpers.html" import render_field %}
+{% extends "new_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Navigation{% endblock %}
-{% block head %}
-	<style>
-	.timeline{
-	border-bottom:2px dotted #d6d6d6;
-	line-height:1.8;
-	}
-	.timeline-head{
-	padding-left:12px;
-	padding-bottom:8px;
-	padding-top:10px
-	}
-	.timeline-main{
-	margin-left:18px;
-	padding-left:0.8em;
-	border-left:1px dotted #6A5ACD;
 
-	}
-	</style>
-{% endblock %}
-{% block body %}
-<div class="page-header row">
-	<div class="col-md-4 col-md-offset-3"><h1>Sixgodoo</h1></div>
-</div>
-<div class="center-block row">
-	<div class="col-md-3 col-md-offset-3">
-		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation"><a href={{url_for('main.index')}}><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
-			<li role="presentation" class="active"><a href={{url_for('main.daily')}}>日常</a></li>
-			<li role="presentation" class="dropdown">
-	  		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">博客<span class="caret"></span></a>
-  				<ul class="dropdown-menu">
-					<li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>全部</a></li>
-					{% for cat in categories %}
-					<li role="presentation"><a href={{url_for('main.category',cat_id=cat.id)}}>{{cat.name}}</a></li>
-					{% endfor %}
-  				</ul>
-			<li role="presentation"><a href={{url_for('main.about')}}>关于</a></li>
-			
-			<li role="presentation" class="dropdown">
-	  		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
-  				<ul class="dropdown-menu">
-    					<li><a href={{url_for('main.new_item')}}>新备忘</a></li>
-    					<li><a href={{url_for('main.new_tag')}}>新标签</a></li>
-    				
-  				</ul>
-		</ul>
+{%block nav%}
+<li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
+<li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>博客</a></li>
+<li role="presentation"><a href={{url_for('main.about')}}>关于</a></li>
+<li role="presentation" class="dropdown">
+	<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+	<ul class="dropdown-menu">
+    	<li><a href={{url_for('main.new_item')}}>新备忘</a></li>
+    	<li><a href={{url_for('main.new_tag')}}>新标签</a></li>
+  	</ul>		
+</li>
+<li>
+	<div class="form-inline" style="padding-top:8px;padding-left:120px;">
+	{{wtf.quick_form(form)}}
 	</div>
-	<div class="col-md-3"><div class="form-inline">{{wtf.quick_form(form)}}</div>
-</div>
+</li>
+{%endblock%}
 
-<div class="row">
-<div class="col-md-6 col-md-offset-3">
-<p></p>
+{% block body %}
+	{{super()}}
 	{% if items %}
 	{% for item in items %}
-	<div class="media timeline">
-		<div class="media-body">
-			<div class="media-heading timeline-head">
-				<p>{{ item.name }}</p>
-			</div>
-			<div class="timeline-main">
-			<p>{{ item.text }}</p>
-			</div>
-			<div class="timeline-head">
-			<p>{{ moment(item.timestamp).fromNow(refresh=True) }}</p>
-			<p><span class="label label-info">{{ item.tag.name }}</span></p>
-			
+	<section class="content-wrap">
+		<div class="container">
+			<div class="row">
+				<main class="col-md-8 col-md-offset-2 main-content">
+					<article id="2" class="post tag-https">
+						<header class="post-head">
+							<a href={{url_for('main.item',item_id=item.id)}}><h1 class="post-title">{{ item.name }}</h1></a>
+							<section class="post-meta">
+							<p>{{ moment(item.timestamp).fromNow(refresh=True) }}</p>
+							</section>
+						</header>
+						<div style="padding-bottom:10px;">
+							<p>{{ item.text }}</p>
+				   			<div class="row">
+    							<div class="col-sm-1">
+									<a href={{url_for('main.tag',tag_id=item.tag.id)}}><p><span class="label label-info">{{ item.tag.name }}</span></p></div>
+								<div class="col-sm-1" style="padding-left:5px;">
+									<a href={{url_for('main.edit_item',item_id=item.id)}} class="btn btn-default btn-xs" role="button">编辑</a>
+								</div>
+								<div class="col-sm-1" style="padding-left:0;">
+									{% if item.flags %}
+									<span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:green"></span>
+									{% else %}
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</article>
+				</main>
 			</div>
 		</div>
-	</div>
+	</section>
 	{% endfor %}
 	{% endif %}
-</div>
 {% endblock %}
 

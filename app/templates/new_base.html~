@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Sixgodoo-{{title}}{% endblock %}
+
+{% block head %}
+	<link href={{ url_for('static',filename='new_base.css') }} rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<header class="main-header">
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12"><h1>{{title}}</h1></div>
+	</div>
+</div>
+</header>
+
+<nav class="navbar main-navigation">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" style="float:none;" id="bs-example-navbar-collapse-1">
+    	<div style="margin:0 auto; width:700px;">
+    		<ul class="nav navbar-nav">
+				<li role="presentation"><a href={{url_for('main.index')}}><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
+				{%block nav%}{%endblock%}
+			</ul>
+		</div>
+ 	</div>
+  </div>
+</nav>
+
+{% block content %}{% endblock %}
+{% endblock %}
+

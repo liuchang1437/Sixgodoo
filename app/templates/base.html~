@@ -7,7 +7,6 @@
 	<meta name="description" content="sixgodoo's personal website"/>
 	<meta name="author" content="Liu Chang" />
 	<link rel="icon" href="static/icon.jpg")/>
-	<title>Sixgodoo</title>
   	<link href={{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }} rel="stylesheet">
 
 	<!--[if lt IE 9]>
@@ -43,6 +42,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src={{url_for('static',filename='jquery.min.css')}}></script>
     <script src={{url_for('static',filename='bootstrap/js/bootstrap.min.js')}}></script>
-    {% block scripts %}{% endblock %}
+    {{moment.include_moment()}}
 </body>
 </html>
