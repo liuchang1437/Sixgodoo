@@ -22,9 +22,9 @@ def daily():
 		items = Item.query.filter_by(name=form.item_name.data).order_by(Item.timestamp.desc()).all()
 		return render_template('daily.html',items=items,form=form,categories = Category.query.all())
 	page = request.args.get('page',1,type=int)
-	pagination = Item.query.order_by(Item.timestamp.desc()).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+	pagination = Item.query.order_by(Item.timestamp.desc()).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False,ep='main.daily')
 	items = pagination.items
-	return render_template('daily.html',title=u"日常",items=items,form=form,pagination=pagination,categories = Category.query.all())
+	return render_template('daily.html',title=u"日常",items=items,form=form,pagination=pagination,categories = Category.query.all(),ep='main.daily')
 
 @main.route('/new_tag',methods=['GET','POST'])
 def new_tag():
@@ -54,11 +54,13 @@ def edit_item(item_id):
 		item.name=form.name.data
 		item.text=form.text.data
 		item.tag_id=form.tag_id.data
+		item.flags=form.flag.data
 		db.session.add(item)
 		return redirect(url_for('main.item',item_id=item_id))
 	form.name.data = item.name
 	form.text.data = item.text
 	form.tag_id.data = item.tag_id
+	form.flag.data = item.flags
 	return render_template('new_form.html',title=u'修改备忘',form=form)
 
 @main.route('/daily/tag/<int:tag_id>')

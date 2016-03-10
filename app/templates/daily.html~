@@ -1,5 +1,15 @@
 {% extends "new_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block head%}
+{{super()}}
+<style>
+ .my-page-my{
+ 	display:block;
+ }
+</style>
+{% endblock%}
 
 {%block nav%}
 <li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
@@ -46,7 +56,7 @@
 									{% if item.flags %}
 									<span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:green"></span>
 									{% else %}
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									<span class="glyphicon glyphicon-remove" aria-hidden="true" style="color:red"></span>
 									{% endif %}
 								</div>
 							</div>
@@ -57,6 +67,11 @@
 		</div>
 	</section>
 	{% endfor %}
+	{% if pagination %}
+	<div class="pagination my-page-my">
+		{{macros.pagination_widget(pagination,'main.daily')}}
+	</div>
+	{% endif %}
 	{% endif %}
 {% endblock %}
 

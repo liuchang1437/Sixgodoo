@@ -1,6 +1,16 @@
 {% extends "new_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+
+{% block head%}
+{{super()}}
+<style>
+ .my-page-my{
+ 	display:block;
+ }
+</style>
+{% endblock%}
+
 {%block nav%}
 <li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
 <li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>博客</a></li>
@@ -57,6 +67,11 @@
 		</div>
 	</section>
 	{% endfor %}
+	{% if pagination %}
+	<div class="pagination my-page-my">
+		{{macros.pagination_widget(pagination,'main.daily')}}
+	</div>
+	{% endif %}
 	{% endif %}
 {% endblock %}
 

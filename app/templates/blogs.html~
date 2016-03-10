@@ -1,6 +1,6 @@
 {% extends "new_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-
+{% import "_macros.html" as macros %}
 {%block nav%}
 <li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
 <li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>全部</a></li>
@@ -34,9 +34,11 @@
 							</section>
 						</header>
 						<div style="padding-bottom:10px;">
-							<p>{{ blog.abstract }}</p>
 							{%if single %}
+								<p>摘要：{{ blog.abstract }}</p>
 								<p>{{blog.text}}</p>
+							{% else %}
+								<p>{{ blog.abstract }}</p>
 							{%endif%}
 							<div class="row">
     							<div class="col-sm-1">
@@ -52,6 +54,11 @@
 		</div>
 	</section>
 	{% endfor %}
+	{% if pagination %}
+	<div class="pagination my-page-my">
+		{{macros.pagination_widget(pagination,'main.category',cat_id=0)}}
+	</div>
+	{% endif %}
 	{% endif %}
 {% endblock %}
 

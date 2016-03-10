@@ -54,6 +54,11 @@
 		</div>
 	</section>
 	{% endfor %}
+	{% if pagination %}
+	<div class="pagination my-page-my">
+		{{macros.pagination_widget(pagination,'main.category',cat_id=0)}}
+	</div>
+	{% endif %}
 	{% endif %}
 {% endblock %}
 
