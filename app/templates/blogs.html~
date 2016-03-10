@@ -1,6 +1,6 @@
 {% extends "new_base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% import "_macros.html" as macros %}
+
 {%block nav%}
 <li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
 <li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>全部</a></li>

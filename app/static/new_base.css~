@@ -45,7 +45,7 @@ body{
 }
 .post {
 	padding:35px;
-	padding-bottom:20px;
+	padding-bottom:15px;
 	background:#ffffff;
 	margin-bottom:35px;
 	position:relative;
@@ -67,6 +67,15 @@ body{
 h1,h2,h3,h4,h5,h6{
 	font-weight:400;
 	color:#303030;
+}
+.copyright{
+	background:#202020;
+	font-size:13px;
+	text-align:center;
+	color:#959595;
+	padding-top:28px;
+	padding-bottom:0;
+	border-top:1px solid #303030;
 }
 
 a{
