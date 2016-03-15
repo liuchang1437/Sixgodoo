@@ -4,49 +4,46 @@
 {% import "_macros.html" as macros %}
 
 {% block head %}
-	<link href={{ url_for('static',filename='new_base.css') }} rel="stylesheet">
-	<style>
-	 .my-page-my{
-	 	margin-top:-20px;
-	 	margin-bottom:30px;
- 		display:block;
- 	}
-	</style>
+  {{super()}}
+	<link href={{ url_for('static',filename='my_style.css') }} rel="stylesheet">
 {% endblock %}
 
 {% block body %}
-<header class="main-header">
-<div class="container">
-	<div class="row">
-		<div class="col-sm-12"><h1>{{title}}</h1></div>
-	</div>
-</div>
-</header>
-
-<nav class="navbar main-navigation">
+<header class="header">
   <div class="container-fluid">
-    <div class="collapse navbar-collapse" style="float:none;" id="bs-example-navbar-collapse-1">
-    	<div style="margin:0 auto; width:700px;">
-    		<ul class="nav navbar-nav">
-				<li role="presentation"><a href={{url_for('main.index')}}><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
-				{%block nav%}{%endblock%}
-			</ul>
-		</div>
- 	</div>
   </div>
-</nav>
-
+</header>
 {% block content %}{% endblock %}
- <div class="copyright">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <span>Copyright &copy; <a href={{url_for('main.index')}}>Sixgodoo</a></span>
-                </div>
-            </div>
-        </div>
- </div>
-
- <a href="#" id="back-to-top"><i class="fa fa-angle-up"><span class="glyphicon glyphicon-triangle-top"></span></i></a>
+{% block page %}{% endblock %}
+<div class="filler">
+  <div class="container">
+  </div>
+</div>
+<div class="copyright">
+  <div class="container">
+    <span>Copyright &copy; <a href={{url_for('main.index')}}>Sixgodoo</a></span>
+  </div>
+</div>
+<div class="container">
+  <div class="nav">
+      <a href={{url_for('main.index')}} id="back-to-top" class="lg">
+        <span class="glyphicon glyphicon-home">
+        </span>
+      </a>
+      <div class="nav-ul lg">
+        <div class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
+          <li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>博客</a></li>
+          <li role="presentation"><a href={{url_for('main.plans')}}>计划</a></li>
+          <li role="presentation"><a href={{url_for('main.about')}}>关于</a></li>
+        </ul>
+      </div>
+      </div>
+      {% block nav_extent %}{% endblock %}
+  </div>
+</div>
 {% endblock %}
-

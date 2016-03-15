@@ -8,11 +8,11 @@
 		<span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
 	</a>
 	<ul class="dropdown-menu">
-		{% for cat in categories %}
-			<li role="presentation"><a href={{url_for('main.category',cat_id=cat.id)}}>{{cat.name}}</a></li>
-		{% endfor %}
+		<li role="presentation"><a href={{url_for('main.daily')}}>全部</a></li>
+		<li role="presentation"><a href={{url_for('main.daily_req',req_id=0)}}>未完成</a></li>
+		<li role="presentation"><a href={{url_for('main.daily_req',req_id=1)}}>已完成</a></li>
 	</ul>
-</div>
+	</div>
 </div>
 <div class="nav-ul lg">
 	<div class="dropdown">
@@ -20,8 +20,8 @@
 		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 	</a>
 	<ul class="dropdown-menu">
-		<li><a href={{url_for('main.new_blog')}}>新博客</a></li>
-		<li><a href={{url_for('main.new_cat')}}>新目录</a></li>
+		<li><a href={{url_for('main.new_item')}}>新备忘</a></li>
+		<li><a href={{url_for('main.new_tag')}}>新标签</a></li>
 	</ul>
 </div>
 </div>
@@ -29,46 +29,43 @@
 
 {% block content %}
 	{{super()}}
-	{% if blogs %}
-	{% for blog in blogs %}
+	{% if items %}
+	{% for item in items %}
 	<section>
 		<div class="container">
 			<div class="row">
 				<main class="col-md-8 col-md-offset-2">
 					<article class="post">
 						<header class="post-text">
-							{%if single %}
-								<p class="post-text">{{blog.text}}</p>
-							{% else %}
-								<p>{{ blog.abstract }}</p>
-							{%endif%}
+							<p>{{item.text}}</p>
 							<p class="post-time">
-								{{blog.timestamp.year}}年{{blog.timestamp.month}}月{{blog.timestamp.day}}日，{{blog.timestamp.hour}}时
+								{{item.timestamp.year}}年{{item.timestamp.month}}月{{item.timestamp.day}}日，{{item.timestamp.hour}}时
 							</p>
 						</header>
 						<div class="post-meta">
-							<a href={{url_for('main.article',blog_id=blog.id)}}>
-								{{blog.title}}
+							<a href={{url_for('main.item',item_id=item.id)}}>
+								{{ item.name }}
 							</a>
 							<div class="post-extent">
 								<ul class="list-inline">
 									<li>•</li>
 									<li>
 										<span class="glyphicon glyphicon-tag"></span>
-										<a href={{url_for('main.category',cat_id=blog.category.id)}}>{{blog.category.name}}</a>
+										<a href={{url_for('main.tag',tag_id=item.tag.id)}}>{{item.tag.name}}</a>
 									</li>
 									<li>•</li>
 									<li>
-										<a href={{url_for('main.edit_blog',blog_id=blog.id)}}>
+										<a href={{url_for('main.edit_item',item_id=item.id)}}>
 											<span class="glyphicon glyphicon-pencil"></span>
 										</a>
 									</li>
 									<li>•</li>
 									<li>
-										<span class="glyphicon glyphicon-list-alt"></span>
-										<a href={{url_for('main.article',blog_id=blog.id)}}>
-											 阅读原文
-										</a>
+										{% if item.flags %}
+										<span class="glyphicon glyphicon-ok" style="color:#F16A6A;"></span>
+										{% else %}
+										<span class="glyphicon glyphicon-remove" style="color:#EA931C"></span>
+										{% endif %}
 									</li>
 							</div>
 						</div>
@@ -79,13 +76,25 @@
 	</section>
 	{% endfor %}
 	{% endif %}
+
+<div class="container">
+	<div class="nav-query">
+		<form action="" method="post" name="item_query">
+				{{form.hidden_tag()}}
+				{{form.item_name(class="form-control",placeholder="查询一下")}}
+				<button class="btn btn-default" type="submit" style="inline-block">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+		</form>
+	</div>
+</div>
 {% endblock %}
 
 {% block page %}
 {% if pagination %}
 <div class="pagination my-pagination">
 	<div class="container">
-		{{macros.pagination_widget(pagination,'main.category',cat_id=cat_id)}}
+		{{macros.pagination_widget(pagination,'main.daily_req',req_id=req_id)}}
 	</div>
 </div>
 {% endif %}

@@ -1,0 +1,51 @@
+{% extends "blogs.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block content %}
+{{super()}}
+	<section class="content-wrap">
+		<div class="container">
+			<div class="row">
+				<main class="col-md-8 col-md-offset-2 main-content">
+					<article id="2" class="post tag-https" style="padding:10%;">
+							<form action="" method="post" name="blog_form">
+								{{form.hidden_tag()}}
+								<div class="form-group">
+    							<label for="blog-title">标题</label>
+    							<div>
+										<p>{{form.title(class="form-control",id="blog-title")}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+    							<label for="blog-abstract">摘要</label>
+    							<div>
+										<p>{{form.abstract(class="form-control",id="blog-abstract",rows="3")}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+    							<label for="blog-text">正文</label>
+    							<div>
+										<p>{{form.text(class="form-control",id="blog-text",rows="20",type="text")}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+    							<label for="blog-tag">标签</label>
+    							<div>
+										<p>{{form.tag(class="form-control",id="blog-tag")}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+    							<label for="blog-cat">目录</label>
+    							<div>
+										<p>{{form.cat_id(class="form-control",id="blog-cat")}}</p>
+									</div>
+								</div>
+								<p><input class="btn btn-default"type="submit" value="提交"></p>
+							</form>
+					</article>
+				</main>
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,42 +1,48 @@
 {% extends "base.html" %}
-{% block title %}Sixgodoo{% endblock %}
-{% block head%}
-  	<link href={{ url_for('static',filename='cover.css') }} rel="stylesheet">
-{% endblock %}
-{% block body %}
-				<div class="site-wrapper">
-					<div class="site-wrapper-inner">
-						<div class="cover-container">
-							<div class="masthead clearfix">
-								<div class="inner">
-									<h3 class="masthead-brand">
-									<a href={{url_for('main.index')}}>Sixgodoo</a></h3>						
-									<nav>
-										<ul class="nav masthead-nav">
-											<li><a href={{url_for("main.daily")}}>日常</a></li>
-											<li><a href={{url_for("main.category",cat_id=0)}}>博客</a></li>
-											<li><a href={{url_for("main.about")}}>关于</a></li>
-											</li>
-										</ul>
-									</nav>		
-								</div>
-							</div>
-							<div class="inner cover">
-								<p class="lead">{{fan_para.text}}
-								</p>				
-								<footer><p class="lead" style="text-align:right;">
-								--{{fan_para.name}}
-								</p></footer>
-							</div>
-							<div class="mastfoot">
-								<div class="inner">
-									<p>
-										<span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span> Sixgodoo，2016
-									</p>								
-								</div>
-							</div>								
-						</div>
-					</div>
-				</div>
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Sixgodoo-{{title}}{% endblock %}
+{% import "_macros.html" as macros %}
+
+{% block head %}
+  {{super()}}
+	<link href={{ url_for('static',filename='my_style.css') }} rel="stylesheet">
 {% endblock %}
 
+{% block body %}
+<div class="container-fluid">
+  <header class="header">
+  </header>
+</div>
+
+{% block content %}{% endblock %}
+ <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <span>Copyright &copy; <a href={{url_for('main.index')}}>Sixgodoo</a></span>
+                </div>
+            </div>
+        </div>
+ </div>
+<div class="nav">
+  <a href={{url_for('main.index')}} id="back-to-top">
+    <span class="glyphicon glyphicon-home">
+    </span>
+  </a>
+  <ul>
+    <li role="presentation" class="dropdown">
+  	    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+        </a>
+  	    <ul class="dropdown-menu">
+          <li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
+          <li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>博客</a></li>
+          <li role="presentation"><a href={{url_for('main.plans')}}>计划</a></li>
+          <li role="presentation"><a href={{url_for('main.about')}}>关于</a></li>
+        </ul>
+    </li>
+  </ul>
+</div>
+ <a href="#" id="back-to-top"><i class="fa fa-angle-up"><span class="glyphicon glyphicon-triangle-top"></span></i></a>
+ <script src={{url_for('static',filename='new_base.js')}}></script>
+{% endblock %}

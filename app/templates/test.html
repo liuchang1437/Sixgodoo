@@ -1,0 +1,45 @@
+{% extends "new_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{%block nav%}
+<li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
+<li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>全部</a></li>
+{% for cat in categories %}
+	<li role="presentation"><a href={{url_for('main.category',cat_id=cat.id)}}>{{cat.name}}</a></li>
+{% endfor %}
+<li role="presentation"><a href={{url_for('main.plans')}}>计划</a></li>
+<li role="presentation"><a href={{url_for('main.about')}}>关于</a></li>
+{%endblock%}
+
+
+{% block content %}
+{{super()}}
+	<section class="content-wrap">
+		<div class="container">
+			<div class="row">
+				<main class="col-md-8 col-md-offset-2 main-content">
+					<article id="2" class="post tag-https">
+						<header class="post-head">
+							<h1 class="post-title">施工中</h1>
+							<section class="post-meta">
+							<p>2016.03.10</p>
+							</section>
+						</header>
+						<div style="padding-bottom:10px;">
+              <form action="" method="post" name="test">
+                  {{form.hidden_tag()}}
+                  <p>{{form.name}}</p>
+                  <p><input type="submit" value="测试一下"></p>
+              </form>
+						</div>
+					</article>
+				</main>
+			</div>
+		</div>
+	</section>
+	{% if pagination %}
+	<div class="pagination my-page-my">
+		{{macros.pagination_widget(pagination,'main.category',cat_id=0)}}
+	</div>
+	{% endif %}
+{% endblock %}

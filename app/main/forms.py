@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField, TextAreaField,SelectField,BooleanField
+from wtforms import StringField, SubmitField, TextAreaField,SelectField,BooleanField,TextField
 from wtforms.validators import Required,Length
 
 class QueryItemForm(Form):
 	item_name = StringField('',\
 		validators=[Required()])
-	
+
 	submit = SubmitField(u'查询')
 class NewTagForm(Form):
 	name = StringField(u'新建标签',validators=[Required()])
@@ -28,18 +28,5 @@ class NewBlogForm(Form):
 	cat_id = SelectField(u'目录',coerce=int)
 	tag = StringField(u'标签')
 	submit = SubmitField(u'提交')
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
+class TestForm(Form):
+    name = TextField('name', validators = [Required()])

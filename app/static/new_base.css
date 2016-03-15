@@ -1,14 +1,14 @@
 body{
-	color:#505050;
+	color:#FFFFFF;
 	line-height:1.75em;
-	background:#ebebeb;
+	background:#AFCE97;
 	position:relative;
 	font-family:"Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
 }
  .main-header{
  	text-align:center;
  	padding:42px 0;
- 	background:#ffffff;
+ 	background:#1B9A5E;
  }
 
 .main-navigation {
@@ -47,7 +47,7 @@ body{
 .post {
 	padding:35px;
 	padding-bottom:15px;
-	background:#ffffff;
+	background:#1B9A5E;
 	margin-bottom:35px;
 	position:relative;
 	overflow:hidden;
@@ -61,13 +61,14 @@ body{
 	line-height:1em;
 }
 .post .post-head .post-meta{
-	color:#959595;
+	color:#FFFFFF;
 	margin:14px 0 0px;
 }
 
 h1,h2,h3,h4,h5,h6{
 	font-weight:400;
-	color:#303030;
+	color:#FFFFFF;
+	transition: all ease 0.3s;
 }
 .copyright{
 	background:#202020;
@@ -96,6 +97,15 @@ i{
 	border-radius:2px;
 	z-index:1;
 }
+.label-info{
+background-color:rgba(226,64,63,0.86);
+}
 a{
  color:#555;
+}
+a:hover {
+	text-decoration: none;	
+}
+a:hover > h1 {
+	color: #92F7C7;
 }
