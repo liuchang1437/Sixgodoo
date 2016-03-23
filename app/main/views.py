@@ -56,7 +56,7 @@ def item(item_id):
 		items = Item.query.filter_by(name=form.item_name.data).order_by(Item.timestamp.desc()).all()
 		return render_template('daily.html',items=items,form=form)
 	items = Item.query.filter_by(id=item_id).all()
-	return render_template('daily.html',title=u"日常",items=items,form=form)
+	return render_template('item.html',title=u"日常",items=items,form=form)
 
 @main.route('/daily/edit/<int:item_id>',methods=['GET','POST'])
 def edit_item(item_id):

@@ -29,19 +29,27 @@
 
 {% block content %}
 	{{super()}}
+	<div class="main">
 	{% if items %}
 	{% for item in items %}
-	<section>
-		<div class="container">
-			<div class="row">
-				<main class="col-md-8 col-md-offset-2">
-					<article class="post">
-						<header class="post-text">
-							<p>{{item.text}}</p>
-							<p class="post-time">
-								{{item.timestamp.year}}年{{item.timestamp.month}}月{{item.timestamp.day}}日，{{item.timestamp.hour}}时
-							</p>
-						</header>
+	<article {% if item.flags %}class="post post-ok"{% else %}class="post post-not"{%endif%}>
+		<header class="post-text">
+			<a href={{url_for('main.tag',tag_id=item.tag.id)}}>{{item.tag.name}}</a>
+			<p>{{item.text[:57]}}
+				{% if item.text[58] %}
+				...&nbsp; <a href={{url_for('main.item',item_id=item.id)}}>全部</a>
+				{% endif %}
+			</p>
+					<p class="post-time">
+						{{item.timestamp.year}}-{{item.timestamp.month}}-{{item.timestamp.day}}，{{item.timestamp.hour}}:{{item.timestamp.minute}}
+					</p>
+					<div class="post-edit">
+						<a href={{url_for('main.edit_item',item_id=item.id)}}>
+							<span class="glyphicon glyphicon-pencil"></span>
+						</a>
+					</div>
+				</header>
+						<!--
 						<div class="post-meta">
 							<a href={{url_for('main.item',item_id=item.id)}}>
 								{{ item.name }}
@@ -67,16 +75,11 @@
 										<span class="glyphicon glyphicon-remove" style="color:#EA931C"></span>
 										{% endif %}
 									</li>
-							</div>
-						</div>
-					</article>
-				</main>
-			</div>
-		</div>
-	</section>
-	{% endfor %}
-	{% endif %}
-
+							</div> -->
+</article>
+{% endfor %}
+{% endif %}
+</div>
 <div class="container">
 	<div class="nav-query">
 		<form action="" method="post" name="item_query">
