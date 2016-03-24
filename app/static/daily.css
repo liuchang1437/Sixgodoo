@@ -17,6 +17,9 @@
 	position:relative;
 	overflow:hidden;
 }
+.post-text i{
+  color: #505050;
+}
 .post a{
   color: #1F5F5D;
 }

@@ -114,7 +114,7 @@ def new_item():
 		return redirect(url_for('main.daily'))
 	return render_template('new_form.html',title=u'新建备忘',form=form)
 
-@main.route('/blogs/category/<int:cat_id>',methods=['GET','POST'])
+@main.route('/blogs/category/<int:cat_id>')
 def category(cat_id):
 	categories = Category.query.all()
 	page = request.args.get('page',1,type=int)
@@ -127,7 +127,7 @@ def category(cat_id):
 	blogs = pagination.items
 	return render_template('blogs.html',cat_id=cat_id,blogs=blogs,pagination=pagination,categories=categories,title=title)
 
-@main.route('/blogs/article/<int:blog_id>',methods=['GET','POST'])
+@main.route('/blogs/article/<int:blog_id>')
 def article(blog_id):
 	categories = Category.query.all()
 	blogs = Blog.query.filter_by(id=blog_id).all()

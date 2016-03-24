@@ -5,6 +5,7 @@
 	<link href={{ url_for('static',filename='daily.css') }} rel="stylesheet">
 {% endblock %}
 {% block topnav %}
+<div class="top-nav">
 <ul class="list-inline">
 	<li role="presentation"><a href={{url_for('main.daily')}}>全部</a></li>
 	<li>|</li>
@@ -12,6 +13,7 @@
 	<li>|</li>
 	<li role="presentation"><a href={{url_for('main.daily_req',req_id=1)}}>已完成</a></li>
 </ul>
+</div>
 {% endblock %}
 {%block nav_extent%}
 <div class="nav-ul lg">
@@ -36,7 +38,7 @@
 		<header class="post-text">
 			<p>
 				<a href={{url_for('main.tag',tag_id=item.tag.id)}}>{{item.tag.name}}</a>
-				 <i style="font-size:14px;">{{item.name}}</i>
+				<a href={{url_for('main.item',item_id=item.id)}}><i style="font-size:14px;">{{item.name}}</i></a>
 			</p>
 			<p>{{item.text[:57]}}
 				{% if item.text[58] %}
