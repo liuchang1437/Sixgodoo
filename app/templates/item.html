@@ -1,0 +1,63 @@
+{% extends "daily.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block head %}
+	<link href={{ url_for('static',filename='new_base.css') }} rel="stylesheet">
+	<link href={{ url_for('static',filename='item.css') }} rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+{% for item in items%}
+<section>
+	<div class="container">
+		<div class="row">
+			<main class="col-md-8 col-md-offset-2 ">
+				<article class="post">
+					<header class="post-head">
+						<h1>{{ item.name }}</h1>
+						<p class="post-time">
+							{{item.timestamp.year}}-{{item.timestamp.month}}-{{item.timestamp.day}}，{{item.timestamp.hour}}:{{item.timestamp.minute}}
+						</p>
+					</header>
+					<div class="post-text">
+						<p>{{ item.text }}</p>
+					</div>
+					<div class="post-extent">
+						<ul class="list-inline">
+							<li>
+								<span class="glyphicon glyphicon-tag"></span>
+								<a href={{url_for('main.tag',tag_id=item.tag.id)}}>{{item.tag.name}}</a>
+							</li>
+							<li>•</li>
+							<li>
+								<a href={{url_for('main.edit_item',item_id=item.id)}}>
+									<span class="glyphicon glyphicon-pencil"></span>
+								</a>
+							</li>
+							<li>•</li>
+							<li>
+								{% if item.flags %}
+								<span class="glyphicon glyphicon-ok" style="color:#F16A6A;"></span>
+								{% else %}
+								<span class="glyphicon glyphicon-remove" style="color:#EA931C"></span>
+								{% endif %}
+							</li>
+						</div>
+					</article>
+				</main>
+			</div>
+		</div>
+</section>
+{% endfor %}
+</div>
+<div class="container">
+	<div class="nav-query">
+		<form action="" method="post" name="item_query">
+				{{form.hidden_tag()}}
+				{{form.item_name(class="form-control",placeholder="查询一下")}}
+				<button class="btn btn-default" type="submit" style="inline-block">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

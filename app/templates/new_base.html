@@ -5,7 +5,7 @@
 
 {% block head %}
   {{super()}}
-	<link href={{ url_for('static',filename='my_style.css') }} rel="stylesheet">
+	<link href={{ url_for('static',filename='new_base.css') }} rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -13,6 +13,9 @@
   <div class="container-fluid">
   </div>
 </header>
+<div class="top-nav">
+  {% block topnav %}{% endblock %}
+</div>
 {% block content %}{% endblock %}
 {% block page %}{% endblock %}
 <div class="filler">

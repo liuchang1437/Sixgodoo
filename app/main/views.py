@@ -18,21 +18,40 @@ def index():
 @main.route('/daily',methods=['GET','POST'])
 def daily():
 	form = QueryItemForm()
-	if form.validate_on_submit():
-		items = Item.query.filter_by(name=form.item_name.data).order_by(Item.timestamp.desc()).all()
-		return render_template('daily.html',items=items,form=form)
 	page = request.args.get('page',1,type=int)
+	if form.validate_on_submit():
+		pagination = Item.query.filter_by(name=form.item_name.data).\
+			order_by(Item.timestamp.desc()).\
+			paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+		items = pagination.items
+		return render_template('daily.html',title=u"检索",items=items,form=form,pagination=pagination)
 	pagination = Item.query.order_by(Item.timestamp.desc()).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
 	items = pagination.items
 	return render_template('daily.html',title=u"日常",items=items,form=form,pagination=pagination)
 
+@main.route('/daily/item/<int:item_id>',methods=['GET','POST'])
+def item(item_id):
+	form = QueryItemForm()
+	if form.validate_on_submit():
+		page = request.args.get('page',1,type=int)
+		pagination = Item.query.filter_by(name=form.item_name.data).\
+			order_by(Item.timestamp.desc()).\
+			paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+		items = pagination.items
+		return render_template('daily.html',title=u"检索",items=items,form=form,pagination=pagination)
+	items = Item.query.filter_by(id=item_id).all()
+	return render_template('item.html',title=u"日常",items=items,form=form)
+
 @main.route('/daily/<int:req_id>',methods=['GET','POST'])
 def daily_req(req_id):
 	form = QueryItemForm()
-	if form.validate_on_submit():
-		items = Item.query.filter_by(name=form.item_name.data).order_by(Item.timestamp.desc()).all()
-		return render_template('daily.html',items=items,form=form)
 	page = request.args.get('page',1,type=int)
+	if form.validate_on_submit():
+		pagination = Item.query.filter_by(name=form.item_name.data).\
+			order_by(Item.timestamp.desc()).\
+			paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+		items = pagination.items
+		return render_template('daily.html',title=u"检索",items=items,form=form,pagination=pagination)
 	if req_id==1:
 		pagination = Item.query.filter_by(flags=1).order_by(Item.timestamp.desc()).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
 	else:
@@ -48,15 +67,6 @@ def new_tag():
 		db.session.add(tag)
 		return redirect(url_for('main.daily'))
 	return render_template('new_form.html',title= u'新建标签',form=form)
-
-@main.route('/daily/item/<int:item_id>',methods=['GET','POST'])
-def item(item_id):
-	form = QueryItemForm()
-	if form.validate_on_submit():
-		items = Item.query.filter_by(name=form.item_name.data).order_by(Item.timestamp.desc()).all()
-		return render_template('daily.html',items=items,form=form)
-	items = Item.query.filter_by(id=item_id).all()
-	return render_template('item.html',title=u"日常",items=items,form=form)
 
 @main.route('/daily/edit/<int:item_id>',methods=['GET','POST'])
 def edit_item(item_id):
@@ -77,13 +87,16 @@ def edit_item(item_id):
 	form.flag.data = item.flags
 	return render_template('new_form.html',title=u'修改备忘',form=form)
 
-@main.route('/daily/tag/<int:tag_id>')
+@main.route('/daily/tag/<int:tag_id>',methods=['GET','POST'])
 def tag(tag_id):
 	form = QueryItemForm()
-	if form.validate_on_submit():
-		items = Item.query.filter_by(name=form.item_name.data).order_by(Item.timestamp.desc()).all()
-		return render_template('daily.html',items=items,form=form)
 	page = request.args.get('page',1,type=int)
+	if form.validate_on_submit():
+		pagination = Item.query.filter_by(name=form.item_name.data).\
+			order_by(Item.timestamp.desc()).\
+			paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+		items = pagination.items
+		return render_template('daily.html',title=u"检索",items=items,form=form,pagination=pagination)
 	pagination = Item.query.filter_by(tag_id=tag_id).order_by(Item.timestamp.desc()).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
 	items = pagination.items
 	return render_template('tag.html',title=u"日常",tag_id=tag_id,items=items,form=form,pagination=pagination)

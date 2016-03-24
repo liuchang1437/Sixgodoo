@@ -1,0 +1,51 @@
+.main{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:center;
+  align-items: flex-start;
+}
+.post{
+  width: 190px;
+  height: 300px;
+  padding-left: 10px;
+  padding-right: 7px;
+	background:#FFFFFF;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 10px;
+	position:relative;
+	overflow:hidden;
+}
+.post a{
+  color: #1F5F5D;
+}
+.post p{
+  margin: 0;
+}
+.post-ok{
+  background-color: #FFFFFF;
+}
+.post-not{
+  background-color: rgba(101, 217, 125, 0.68);
+}
+.post-text{
+  margin: 5px 0;
+  color: #444443;
+  font:normal 18px/1.8 "Helvetica Neue", "Helvetica", "Arial", "Hiragino Sans GB", "Microsoft Yahei", "WenQuanYi Micro Hei", "sans-serif";
+}
+.post-edit{
+  position: absolute;
+  bottom: 1px;
+  right: 8px;
+  font-size: 0.8em;
+}
+.post-edit a{
+  color: #959595;
+}
+.post-time{
+  position: absolute;
+  bottom: 2px;
+  font-size: 0.8em;
+  color: #959595;
+}
