@@ -8,13 +8,14 @@ from .. import db
 from ..models import Blog, Item, Tag, Category
 from random import randint
 from markdown2 import markdown
+from flask.ext.login import login_required
 
 @main.route('/')
 def index():
 	fan_paras = Tag.query.filter_by(name=u'摘抄').first().items
 	fan_para_length = len(fan_paras)
 	fan_para = fan_paras[randint(0,fan_para_length-1)]
-	return render_template('index.html',fan_para=fan_para)
+	return render_template('index.html',title=u'主页 ',fan_para=fan_para)
 
 @main.route('/daily',methods=['GET','POST'])
 def daily():
@@ -60,7 +61,9 @@ def daily_req(req_id):
 	items = pagination.items
 	return render_template('daily_req.html',title=u"日常",items=items,form=form,pagination=pagination,req_id=req_id)
 
+
 @main.route('/new_tag',methods=['GET','POST'])
+@login_required
 def new_tag():
 	form = NewTagForm()
 	if form.validate_on_submit():
@@ -70,6 +73,7 @@ def new_tag():
 	return render_template('new_tag.html',title= u'新建标签',form=form)
 
 @main.route('/daily/edit/<int:item_id>',methods=['GET','POST'])
+@login_required
 def edit_item(item_id):
 	item = Item.query.filter_by(id=item_id).first()
 	form = NewItemForm()
@@ -103,6 +107,7 @@ def tag(tag_id):
 	return render_template('tag.html',title=u"日常",tag_id=tag_id,items=items,form=form,pagination=pagination)
 
 @main.route('/new_item',methods=['GET','POST'])
+@login_required
 def new_item():
 	form = NewItemForm()
 	form.tag_id.choices = [(g.id, g.name) for g in \
@@ -135,6 +140,7 @@ def article(blog_id):
 	return render_template('blogs.html',blogs=blogs,categories=categories,title=blogs[0].category.name,single=True)
 
 @main.route('/blogs/new_cat',methods=['GET','POST'])
+@login_required
 def new_cat():
 	form = NewCatForm()
 	categories = Category.query.all()
@@ -146,6 +152,7 @@ def new_cat():
 	return render_template('new_cat_form.html',title=u'新建目录',form=form,categories=categories)
 
 @main.route('/blogs/new_blog',methods=['GET','POST'])
+@login_required
 def new_blog():
 	categories = Category.query.all()
 	form = NewBlogForm()
@@ -161,11 +168,13 @@ def new_blog():
 		return redirect(url_for('main.category',cat_id=form.cat_id.data))
 	return render_template('new_blog_form.html',title=u'新建博客',form=form,categories=categories)
 @main.route('/blogs/delete/<int:blog_id>',methods=['GET','POST'])
+@login_required
 def del_blog(blog_id):
 	blog = Blog.query.filter_by(id=blog_id).first()
 	db.session.delete(blog)
 	return redirect(url_for('main.category',cat_id=0))
 @main.route('/blogs/edit/<int:blog_id>',methods=['GET','POST'])
+@login_required
 def edit_blog(blog_id):
 	categories = Category.query.all()
 	blog = Blog.query.filter_by(id=blog_id).first()
