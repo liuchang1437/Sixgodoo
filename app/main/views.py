@@ -7,6 +7,7 @@ from .forms import NewTagForm, NewCatForm, NewItemForm, NewBlogForm,\
 from .. import db
 from ..models import Blog, Item, Tag, Category
 from random import randint
+from markdown2 import markdown
 
 @main.route('/')
 def index():
@@ -66,7 +67,7 @@ def new_tag():
 		tag = Tag(name=form.name.data)
 		db.session.add(tag)
 		return redirect(url_for('main.daily'))
-	return render_template('new_form.html',title= u'新建标签',form=form)
+	return render_template('new_tag.html',title= u'新建标签',form=form)
 
 @main.route('/daily/edit/<int:item_id>',methods=['GET','POST'])
 def edit_item(item_id):
@@ -85,7 +86,7 @@ def edit_item(item_id):
 	form.text.data = item.text
 	form.tag_id.data = item.tag_id
 	form.flag.data = item.flags
-	return render_template('new_form.html',title=u'修改备忘',form=form)
+	return render_template('new_item.html',title=u'修改备忘',form=form)
 
 @main.route('/daily/tag/<int:tag_id>',methods=['GET','POST'])
 def tag(tag_id):
@@ -112,7 +113,7 @@ def new_item():
 		db.session.add(item)
 		flash('new item!')
 		return redirect(url_for('main.daily'))
-	return render_template('new_form.html',title=u'新建备忘',form=form)
+	return render_template('new_item.html',title=u'新建备忘',form=form)
 
 @main.route('/blogs/category/<int:cat_id>')
 def category(cat_id):
@@ -136,28 +137,37 @@ def article(blog_id):
 @main.route('/blogs/new_cat',methods=['GET','POST'])
 def new_cat():
 	form = NewCatForm()
+	categories = Category.query.all()
 	if form.validate_on_submit():
 		category = Category(name=form.name.data)
 		db.session.add(category)
+		flash('New category!')
 		return redirect(url_for('main.category',cat_id=0))
-	return render_template('new_form.html',title=u'新建目录',form=form)
+	return render_template('new_cat_form.html',title=u'新建目录',form=form,categories=categories)
 
 @main.route('/blogs/new_blog',methods=['GET','POST'])
 def new_blog():
+	categories = Category.query.all()
 	form = NewBlogForm()
 	form.cat_id.choices = [(g.id, g.name) for g in \
 		Category.query.order_by('id')]
 	if form.validate_on_submit():
 		blog = Blog(title=form.title.data,text=form.text.data,\
 			category_id=form.cat_id.data,tag=form.tag.data,\
-			abstract=form.abstract.data)
+			abstract=form.abstract.data,text_html=markdown(form.text.data))
+
 		db.session.add(blog)
 		flash('new blog!')
 		return redirect(url_for('main.category',cat_id=form.cat_id.data))
-	return render_template('new_blog_form.html',title=u'新建博客',form=form)
-
+	return render_template('new_blog_form.html',title=u'新建博客',form=form,categories=categories)
+@main.route('/blogs/delete/<int:blog_id>',methods=['GET','POST'])
+def del_blog(blog_id):
+	blog = Blog.query.filter_by(id=blog_id).first()
+	db.session.delete(blog)
+	return redirect(url_for('main.category',cat_id=0))
 @main.route('/blogs/edit/<int:blog_id>',methods=['GET','POST'])
 def edit_blog(blog_id):
+	categories = Category.query.all()
 	blog = Blog.query.filter_by(id=blog_id).first()
 	form = NewBlogForm()
 	form.cat_id.choices = [(g.id, g.name) for g in \
@@ -168,6 +178,7 @@ def edit_blog(blog_id):
 		blog.category_id=form.cat_id.data
 		blog.tag=form.tag.data
 		blog.abstract=form.abstract.data
+		blog.text_html = markdown(blog.text)
 		db.session.add(blog)
 		return redirect(url_for('main.article',blog_id=blog_id))
 	form.title.data=blog.title
@@ -175,7 +186,7 @@ def edit_blog(blog_id):
 	form.cat_id.data=blog.category_id
 	form.tag.data=blog.tag
 	form.abstract.data=blog.abstract
-	return render_template('new_form.html',title=u'修改博客',form=form)
+	return render_template('new_blog_form.html',title=u'修改博客',form=form,categories=categories)
 
 
 @main.route('/plans')

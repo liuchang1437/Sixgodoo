@@ -2,6 +2,7 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, TextAreaField,SelectField,BooleanField,TextField
 from wtforms.validators import Required,Length
+from flask.ext.pagedown.fields import PageDownField
 
 class QueryItemForm(Form):
 	item_name = StringField('',\
@@ -24,7 +25,7 @@ class NewBlogForm(Form):
 	title = StringField(u'标题',validators=[Required(),Length(0,64)])
 	abstract = TextAreaField(u'摘要',validators=[Required(), \
 		Length(0,140)])
-	text = TextAreaField(u'正文',validators=[Required()])
+	text = PageDownField(u'正文',validators=[Required()])
 	cat_id = SelectField(u'目录',coerce=int)
 	tag = StringField(u'标签')
 	submit = SubmitField(u'提交')

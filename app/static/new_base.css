@@ -51,6 +51,9 @@ body{
 .nav a{
   color: #555;
 }
+.nav a:hover{
+  text-decoration: none;
+}
 .nav-query{
   position: fixed;
   right: 1em;

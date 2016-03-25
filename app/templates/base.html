@@ -36,6 +36,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src={{url_for('static',filename='jquery.min.css')}}></script>
     <script src={{url_for('static',filename='bootstrap/js/bootstrap.min.js')}}></script>
-    {{moment.include_moment()}}
+		{%block scripts%}{%endblock%}
+		{{moment.include_moment()}}
 </body>
 </html>

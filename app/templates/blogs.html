@@ -4,6 +4,13 @@
 {% block head %}
 	{{super()}}
 	<link href={{ url_for('static',filename='item.css') }} rel="stylesheet">
+	<script type="text/javascript">
+	function del(){
+		if(!confirm("确认要删除？")){
+			window.event.returnValue = false;
+		}
+	}
+	</script>
 {% endblock %}
 
 {% block topnav %}
@@ -49,7 +56,11 @@
 						</header>
 						<div class="post-text">
 							{%if single %}
+								{% if blog.text_html %}
+								<p class="post-text">{{blog.text_html | safe}}</p>
+								{% else %}
 								<p class="post-text">{{blog.text}}</p>
+								{% endif %}
 							{% else %}
 								<p>{{ blog.abstract }}</p>
 							{%endif%}
@@ -63,15 +74,18 @@
 									</li>
 									<li>•</li>
 									<li>
-										<a href={{url_for('main.edit_blog',blog_id=blog.id)}}>
-											<span class="glyphicon glyphicon-pencil"></span>
+										<a href={{url_for('main.article',blog_id=blog.id)}}>
+											<span class="glyphicon glyphicon-list-alt" title="阅读全文"></span>
 										</a>
 									</li>
-									<li>•</li>
 									<li>
-										<span class="glyphicon glyphicon-list-alt"></span>
-										<a href={{url_for('main.article',blog_id=blog.id)}}>
-											 阅读原文
+										<a href={{url_for('main.edit_blog',blog_id=blog.id)}}>
+											<span class="glyphicon glyphicon-pencil" title="编辑"></span>
+										</a>
+									</li>
+									<li>
+										<a href={{url_for('main.del_blog',blog_id=blog.id)}} onclick="del()">
+											<span class="glyphicon glyphicon-remove" title="删除"></span>
 										</a>
 									</li>
 							</div>

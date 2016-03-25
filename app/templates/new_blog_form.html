@@ -1,14 +1,12 @@
 {% extends "blogs.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-
 {% block content %}
-{{super()}}
 	<section class="content-wrap">
 		<div class="container">
 			<div class="row">
 				<main class="col-md-8 col-md-offset-2 main-content">
-					<article id="2" class="post tag-https" style="padding:10%;">
+					<article class="post tag-https" style="padding:10%;">
 							<form action="" method="post" name="blog_form">
 								{{form.hidden_tag()}}
 								<div class="form-group">
@@ -26,7 +24,7 @@
 								<div class="form-group">
     							<label for="blog-text">正文</label>
     							<div>
-										<p>{{form.text(class="form-control",id="blog-text",rows="20",type="text")}}</p>
+										<p>{{form.text(class="form-control",rows="20",type="text")}}</p>
 									</div>
 								</div>
 								<div class="form-group">
@@ -49,3 +47,7 @@
 		</div>
 	</section>
 {% endblock %}
+
+{%block scripts%}
+{{pagedown.include_pagedown()}}
+{%endblock%}
