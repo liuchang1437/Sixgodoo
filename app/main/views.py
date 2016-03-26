@@ -87,7 +87,6 @@ def edit_item(item_id):
 		item.flags=form.flag.data
 		db.session.add(item)
 		db.session.commit()
-		flash('%s' %item.name)
 		return redirect(url_for('main.item',item_id=item_id))
 	form.name.data = item.name
 	form.text.data = item.text
@@ -120,7 +119,6 @@ def new_item():
 			tag_id=form.tag_id.data)
 		db.session.add(item)
 		db.session.commit()
-		flash('new item!%s' % item.name)
 		return redirect(url_for('main.daily'))
 	return render_template('new_item.html',title=u'新建备忘',form=form)
 
