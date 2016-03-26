@@ -12,7 +12,7 @@ app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app,db)
 
-def make_shell_context():											   # import app,db,models automatically 
+def make_shell_context():											   # import app,db,models automatically
 	return dict(app=app,db=db,Item=Item,Blog=Blog,Tag=Tag,Category=Category)
 
 manager.add_command('shell', Shell(make_context=make_shell_context))

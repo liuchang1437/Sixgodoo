@@ -69,6 +69,7 @@ def new_tag():
 	if form.validate_on_submit():
 		tag = Tag(name=form.name.data)
 		db.session.add(tag)
+		db.session.commit()
 		return redirect(url_for('main.daily'))
 	return render_template('new_tag.html',title= u'新建标签',form=form)
 
@@ -85,6 +86,8 @@ def edit_item(item_id):
 		item.tag_id=form.tag_id.data
 		item.flags=form.flag.data
 		db.session.add(item)
+		db.session.commit()
+		flash('%s' %item.name)
 		return redirect(url_for('main.item',item_id=item_id))
 	form.name.data = item.name
 	form.text.data = item.text
@@ -116,7 +119,8 @@ def new_item():
 		item = Item(name=form.name.data,text=form.text.data,flags=form.flag.data,\
 			tag_id=form.tag_id.data)
 		db.session.add(item)
-		flash('new item!')
+		db.session.commit()
+		flash('new item!%s' % item.name)
 		return redirect(url_for('main.daily'))
 	return render_template('new_item.html',title=u'新建备忘',form=form)
 
@@ -147,6 +151,7 @@ def new_cat():
 	if form.validate_on_submit():
 		category = Category(name=form.name.data)
 		db.session.add(category)
+		db.session.commit()
 		flash('New category!')
 		return redirect(url_for('main.category',cat_id=0))
 	return render_template('new_cat_form.html',title=u'新建目录',form=form,categories=categories)
@@ -164,6 +169,7 @@ def new_blog():
 			abstract=form.abstract.data,text_html=markdown(form.text.data))
 
 		db.session.add(blog)
+		db.session.commit()
 		flash('new blog!')
 		return redirect(url_for('main.category',cat_id=form.cat_id.data))
 	return render_template('new_blog_form.html',title=u'新建博客',form=form,categories=categories)
@@ -189,6 +195,7 @@ def edit_blog(blog_id):
 		blog.abstract=form.abstract.data
 		blog.text_html = markdown(blog.text)
 		db.session.add(blog)
+		db.session.commit()
 		return redirect(url_for('main.article',blog_id=blog_id))
 	form.title.data=blog.title
 	form.text.data=blog.text
