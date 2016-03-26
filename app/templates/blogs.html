@@ -26,6 +26,7 @@
 {% endblock %}
 
 {%block nav_extent%}
+ {% if current_user.is_authenticated %}
 <div class="nav-ul lg">
 	<div class="dropdown">
 		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -37,6 +38,7 @@
 		</ul>
 	</div>
 </div>
+{% endif %}
 {%endblock%}
 
 {% block content %}
@@ -78,6 +80,7 @@
 											<span class="glyphicon glyphicon-list-alt" title="阅读全文"></span>
 										</a>
 									</li>
+									 {% if current_user.is_authenticated %}
 									<li>
 										<a href={{url_for('main.edit_blog',blog_id=blog.id)}}>
 											<span class="glyphicon glyphicon-pencil" title="编辑"></span>
@@ -88,6 +91,7 @@
 											<span class="glyphicon glyphicon-remove" title="删除"></span>
 										</a>
 									</li>
+									{% endif %}
 							</div>
 						</div>
 					</article>

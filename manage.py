@@ -5,8 +5,10 @@ from app import create_app, db
 from app.models import Item, Blog, Tag, Category
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
+#from werkzeug.contrib.fixers import ProxyFix
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+#app.wsgi_app = ProxyFix(app.wsgi_app)
 manager = Manager(app)
 migrate = Migrate(app,db)
 
@@ -22,6 +24,7 @@ def test():
 	import unittest
 	tests = unittest.TestLoader().discover('tests')
 	unittest.TextTestRunner(verbosity=2).run(tests)
+
 
 if __name__ == '__main__':
 	manager.run()

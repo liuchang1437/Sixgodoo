@@ -16,6 +16,7 @@
 </div>
 {% endblock %}
 {%block nav_extent%}
+ {% if current_user.is_authenticated %}
 <div class="nav-ul lg">
 	<div class="dropdown">
 	<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -27,6 +28,7 @@
 	</ul>
 </div>
 </div>
+{% endif %}
 {%endblock%}
 
 {% block content %}
@@ -40,19 +42,21 @@
 				<a href={{url_for('main.tag',tag_id=item.tag.id)}}>{{item.tag.name}}</a>
 				<a href={{url_for('main.item',item_id=item.id)}}><i style="font-size:14px;">{{item.name}}</i></a>
 			</p>
-			<p>{{item.text[:57]}}
-				{% if item.text[58] %}
+			<p>{{item.text[:44]}}
+				{% if item.text[45] %}
 				...&nbsp; <a href={{url_for('main.item',item_id=item.id)}}>全部</a>
 				{% endif %}
 			</p>
 					<p class="post-time">
 						{{item.timestamp.year}}-{{item.timestamp.month}}-{{item.timestamp.day}}，{{item.timestamp.hour}}:{{item.timestamp.minute}}
 					</p>
+					 {% if current_user.is_authenticated %}
 					<div class="post-edit">
 						<a href={{url_for('main.edit_item',item_id=item.id)}}>
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</div>
+					{% endif %}
 				</header>
 </article>
 {% endfor %}

@@ -44,7 +44,7 @@ body{
 .nav{
   padding: 0.2em 0.5em;
   position: fixed;
-  left: 2em;
+  left: 1em;
   top: 2em;
   width: auto;
 }
@@ -57,7 +57,7 @@ body{
 .nav-query{
   position: fixed;
   right: 1em;
-  top:3em;
+  top:2.3em;
   width: auto;
 }
 .nav-query .form-control{
