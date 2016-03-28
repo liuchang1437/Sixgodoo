@@ -15,7 +15,7 @@ def login():
             login_user(user,form.remember_me.data)
             return redirect(request.args.get('next') or url_for('main.index'))
         flash(u'密码或者用户名错误。')
-    return render_template('new_form.html',title=u'登陆',form=form)
+    return render_template('new_form.html',title=u'登录',form=form)
 
 @auth.route('/logout')
 @login_required

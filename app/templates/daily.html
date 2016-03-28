@@ -66,10 +66,13 @@
 	<div class="nav-query">
 		<form action="" method="post" name="item_query">
 				{{form.hidden_tag()}}
-				{{form.item_name(class="form-control",placeholder="查询一下")}}
-				<button class="btn btn-default" type="submit" style="inline-block">
-					<span class="glyphicon glyphicon-search"></span>
-				</button>
+				<div class="input-group">
+  				{{form.item_name(class="form-control",placeholder="查询一下")}}
+					<button class="btn btn-default" type="submit" style="inline-block">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</div>
+
 		</form>
 	</div>
 </div>

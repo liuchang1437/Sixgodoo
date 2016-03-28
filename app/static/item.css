@@ -4,6 +4,7 @@
 	margin-bottom:15px;
 	position:relative;
 	overflow:hidden;
+  box-shadow: 0 0 4px 1px #AD9A9A;
 }
 .post-text{
   font-size: 17px;
