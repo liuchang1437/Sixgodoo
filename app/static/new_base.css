@@ -14,10 +14,11 @@ body{
 .top-nav{
   padding-top: 10px;
   padding-bottom: 2px;
-  border-top: 2px solid #EBEBEB;
+  box-shadow: 0 0 4px 1px #BBB;
   background-color: #FFFFFF;
   margin-bottom: 20px;
   text-align: center;
+
 }
 .top-nav a{
   color:#505050;
