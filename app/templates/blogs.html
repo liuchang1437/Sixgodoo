@@ -50,11 +50,18 @@
 			<div class="row">
 				<main class="col-md-8 col-md-offset-2">
 					<article class="post blogs-post">
+						<span class="round-date">
+							<span class="month">{{blog.timestamp.month}}月</span>
+							<span class="day">{{blog.timestamp.day}}</span>
+						</span>
 						<header class="post-head">
 								<h1>{{blog.title}}</h1>
 							<p class="post-time">
-								{{blog.timestamp.year}}年{{blog.timestamp.month}}月{{blog.timestamp.day}}日，{{blog.timestamp.hour}}时
+								{{blog.timestamp.year}}年{{blog.timestamp.month}}月{{blog.timestamp.day}}日 {{blog.timestamp.hour}}时
 							</p>
+							<div class="post-label">
+								<a href={{url_for('main.category',cat_id=blog.category.id)}}>{{blog.category.name}}</a>
+							</div>
 						</header>
 						<div class="post-text">
 							{%if single %}
@@ -64,28 +71,24 @@
 								<p class="post-text">{{blog.text}}</p>
 								{% endif %}
 							{% else %}
-								<p>{{ blog.abstract }}</p>
+								{% if blog.text_html %}
+									<p class="post-text">{{blog.text_html[:600] | safe}}</p>
+									<p><a  style="color:#337ab7;text-decoration:none;" href={{url_for('main.article',blog_id=blog.id)}}>继续阅读</a></p>
+								{% else %}
+									<p class="post-text">{{blog.text}}</p>
+								{% endif %}
 							{%endif%}
 						</div>
 						<div class="post-meta">
 							<div class="post-extent">
 								<ul class="list-inline">
-									<li>
-										<span class="glyphicon glyphicon-tag"></span>
-										<a href={{url_for('main.category',cat_id=blog.category.id)}}>{{blog.category.name}}</a>
-									</li>
-									<li>•</li>
-									<li>
-										<a href={{url_for('main.article',blog_id=blog.id)}}>
-											<span class="glyphicon glyphicon-list-alt" title="阅读全文"></span>
-										</a>
-									</li>
 									 {% if current_user.is_authenticated %}
 									<li>
 										<a href={{url_for('main.edit_blog',blog_id=blog.id)}}>
 											<span class="glyphicon glyphicon-pencil" title="编辑"></span>
 										</a>
 									</li>
+									<li>•</li>
 									<li>
 										<a href={{url_for('main.del_blog',blog_id=blog.id)}} onclick="del()">
 											<span class="glyphicon glyphicon-remove" title="删除"></span>

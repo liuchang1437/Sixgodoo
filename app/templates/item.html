@@ -12,22 +12,25 @@
 		<div class="row">
 			<main class="col-md-8 col-md-offset-2 ">
 				<article class="post">
+					<span class="round-date">
+						<span class="month">{{item.timestamp.month}}月</span>
+						<span class="day">{{item.timestamp.day}}</span>
+					</span>
 					<header class="post-head">
 						<h1>{{ item.name }}</h1>
 						<p class="post-time">
-							{{item.timestamp.year}}-{{item.timestamp.month}}-{{item.timestamp.day}}，{{item.timestamp.hour}}:{{item.timestamp.minute}}
+							{{item.timestamp.year}}-{{item.timestamp.month}}-{{item.timestamp.day}} {{item.timestamp.hour}}:{{item.timestamp.minute}}
 						</p>
+						<div class="post-label">
+							<a href={{url_for('main.tag',tag_id=item.tag.id)}}>{{item.tag.name}}</a>
+						</div>
 					</header>
 					<div class="post-text">
 						<p>{{ item.text }}</p>
 					</div>
+					{% if current_user.is_authenticated %}
 					<div class="post-extent">
 						<ul class="list-inline">
-							<li>
-								<span class="glyphicon glyphicon-tag"></span>
-								<a href={{url_for('main.tag',tag_id=item.tag.id)}}>{{item.tag.name}}</a>
-							</li>
-							<li>•</li>
 							<li>
 								<a href={{url_for('main.edit_item',item_id=item.id)}}>
 									<span class="glyphicon glyphicon-pencil"></span>
@@ -42,6 +45,7 @@
 								{% endif %}
 							</li>
 						</div>
+					{% endif %}
 					</article>
 				</main>
 			</div>
