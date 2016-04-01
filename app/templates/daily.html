@@ -53,7 +53,7 @@
 					 {% if current_user.is_authenticated %}
 					<div class="post-edit">
 						<a href={{url_for('main.edit_item',item_id=item.id)}}>
-							<span class="glyphicon glyphicon-pencil"></span>
+								<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</div>
 					{% endif %}
@@ -67,12 +67,11 @@
 		<form action="" method="post" name="item_query">
 				{{form.hidden_tag()}}
 				<div class="input-group">
-  				{{form.item_name(class="form-control",placeholder="查询一下")}}
-					<button class="btn btn-default" type="submit" style="inline-block">
+  				{{form.item_name(class="form-control",type="text",placeholder="查询一下")}}
+					<button class="btn btn-default" type="submit">
 						<span class="glyphicon glyphicon-search"></span>
 					</button>
 				</div>
-
 		</form>
 	</div>
 </div>

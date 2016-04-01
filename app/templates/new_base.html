@@ -30,6 +30,7 @@
       <a href={{url_for('main.index')}} id="back-to-top" class="lg">
         <span class="glyphicon glyphicon-home">
         </span>
+        <!-- <i class="icon-home"></i>-->
       </a>
       <div class="nav-ul lg">
         <div class="dropdown">
@@ -40,6 +41,7 @@
           <li role="presentation"><a href={{url_for('main.daily')}}>日常</a></li>
           <li role="presentation"><a href={{url_for('main.category',cat_id=0)}}>博客</a></li>
           <li role="presentation"><a href={{url_for('main.plans')}}>计划</a></li>
+          <li role="separator" class="divider"></li>
           <li role="presentation"><a href={{url_for('main.about')}}>关于</a></li>
         </ul>
       </div>
@@ -48,11 +50,13 @@
       <a href={{url_for('auth.logout')}} class="lg">
         <span class="glyphicon glyphicon-ice-lolly-tasted" title="登出">
         </span>
+        <!--<i class="icon-signout icon-large"></i>-->
       </a>
       {% else %}
       <a href={{url_for('auth.login')}} class="lg">
         <span class="glyphicon glyphicon-ice-lolly" title="登陆">
         </span>
+        <!--<i class="icon-user icon-large"></i>-->
       </a>
       {% endif %}
       {% block nav_extent %}{% endblock %}
