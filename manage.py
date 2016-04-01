@@ -2,7 +2,7 @@
 #!/usr/bin/env python
 import os
 from app import create_app, db
-from app.models import Item, Blog, Tag, Category
+from app.models import Item, Blog, Tag, Category,Plan,User
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 #from werkzeug.contrib.fixers import ProxyFix
@@ -13,7 +13,7 @@ manager = Manager(app)
 migrate = Migrate(app,db)
 
 def make_shell_context():											   # import app,db,models automatically
-	return dict(app=app,db=db,Item=Item,Blog=Blog,Tag=Tag,Category=Category)
+	return dict(app=app,db=db,Item=Item,Blog=Blog,Tag=Tag,Category=Category,Plan=Plan,User=User)
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)							   # add database migaration. method : db migrate : db upgrade
