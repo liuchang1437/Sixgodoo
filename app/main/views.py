@@ -176,6 +176,7 @@ def new_blog():
 def del_blog(blog_id):
 	blog = Blog.query.filter_by(id=blog_id).first()
 	db.session.delete(blog)
+	db.session.commit()
 	return redirect(url_for('main.category',cat_id=0))
 @main.route('/blogs/edit/<int:blog_id>',methods=['GET','POST'])
 @login_required
