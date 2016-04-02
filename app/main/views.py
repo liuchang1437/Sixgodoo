@@ -177,7 +177,10 @@ def del_blog(blog_id):
 	blog = Blog.query.filter_by(id=blog_id).first()
 	db.session.delete(blog)
 	db.session.commit()
-	return redirect(url_for('main.category',cat_id=0))
+	if request.headers.get('Referer')[22:35] == 'blogs/article':
+		return redirect(url_for('main.category',cat_id=0,page=request.args.get('page')))
+	else:
+		return redirect(request.headers.get('Referer'))
 @main.route('/blogs/edit/<int:blog_id>',methods=['GET','POST'])
 @login_required
 def edit_blog(blog_id):

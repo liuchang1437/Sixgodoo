@@ -90,9 +90,15 @@
 									</li>
 									<li>•</li>
 									<li>
+										{% if pagination %}
+										<a href={{url_for('main.del_blog',blog_id=blog.id,page=pagination.page)}} onclick="del()">
+											<span class="glyphicon glyphicon-trash" title="删除"></span>
+										</a>
+										{% else %}
 										<a href={{url_for('main.del_blog',blog_id=blog.id)}} onclick="del()">
 											<span class="glyphicon glyphicon-trash" title="删除"></span>
 										</a>
+										{% endif %}
 									</li>
 									{% endif %}
 							</div>
