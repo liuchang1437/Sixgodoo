@@ -5,7 +5,7 @@ from . import main
 from .forms import NewTagForm, NewCatForm, NewItemForm, NewBlogForm,\
 	QueryItemForm,TestForm, NewPlanForm,EditPlanForm
 from .. import db
-from ..models import Blog, Item, Tag, Category, Plan2
+from ..models import Blog, Item, Tag, Category, Plan
 from random import randint
 from markdown2 import markdown
 from flask.ext.login import login_required
@@ -228,7 +228,7 @@ def test():
 
 @main.route('/plans',methods=['POST','GET'])
 def plans():
-	plans = Plan2.query.all()
+	plans = Plan.query.all()
 	return render_template('plans.html',title=u'Plans',plans=plans)
 
 @main.route('/plans/new_plan',methods=['GET','POST'])
@@ -236,7 +236,7 @@ def plans():
 def new_plan():
 	form = NewPlanForm()
 	if form.validate_on_submit():
-		plan = Plan2(name=form.name.data,description=form.description.data,\
+		plan = Plan(name=form.name.data,description=form.description.data,\
 			count=(int)(form.count.data))
 		db.session.add(plan)
 		db.session.commit()
@@ -248,7 +248,7 @@ def new_plan():
 @login_required
 def edit_plan(plan_id):
 	form = EditPlanForm()
-	plan = Plan2.query.filter_by(id=plan_id).first()
+	plan = Plan.query.filter_by(id=plan_id).first()
 	print(datetime.now())
 	day = plan.cal_days(datetime.now())+1
 	if form.validate_on_submit():
