@@ -13,9 +13,10 @@ from datetime import datetime
 
 @main.route('/')
 def index():
-	fan_paras = Tag.query.filter_by(name=u'摘抄').first().items
-	fan_para_length = len(fan_paras)
-	if fan_para_length>0:
+	fan_paras = Tag.query.filter_by(name=u'摘抄').first()
+	if fan_paras:
+		fan_paras=fan_paras.items
+		fan_para_length = len(fan_paras)
 		fan_para = fan_paras[randint(0,fan_para_length-1)]
 	else:
 		fan_para='empty'
