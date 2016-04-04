@@ -80,9 +80,24 @@ class User(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(int(user_id))
-
 class Plan(db.Model):
-	__tablename__ = 'plans'
+ 	__tablename__ = 'plans'
+ 	id = db.Column(db.Integer, primary_key = True)
+ 	progress = db.Column(db.LargeBinary,default=0)
+ 	name = db.Column(db.String, unique = True, index=True)
+ 	is_finished = db.Column(db.Boolean)
+ 	description = db.Column(db.Text)
+ 	count = db.Column(db.Integer)
+	timestamp = db.Column(db.DateTime,index=True,default=datetime.now)
+
+ 	def is_n(self,n):
+ 		return (not (self.progress & (1<<(n-1)) == 0))
+ 	def set_n(self,n):
+ 		self.progress |= 1<<(n-1)
+ 	def __repr__(self):
+ 		return '<Plan %r>' % self.name
+class Plan2(db.Model):
+	__tablename__ = 'plans2'
 	id = db.Column(db.Integer, primary_key = True)
 	progress = db.Column(db.String(100),default='^')
 	name = db.Column(db.String, unique = True, index=True)
@@ -105,7 +120,7 @@ class Plan(db.Model):
 				self.progress+='0'
 			self.progress+='1'
 	def __repr__(self):
-		return '<Plan %r>' % self.name
+		return '<Plan2 %r>' % self.name
 
 	def cal_days(self,ed):
 		oneday=timedelta(days=1)
