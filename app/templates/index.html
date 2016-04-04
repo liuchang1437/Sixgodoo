@@ -12,11 +12,15 @@
 				<article class="post">
 					<div class="index-text post-text">
 						<i class="icon-quote-left icon-4x pull-left"></i>
+						{% if not fan_para=='empty' %}
 						{{fan_para.text}}
+						{% endif %}
 					</div>
           <div class="index-writer post-writer">
 						<i class="icon-double-angle-left icon-2x"></i>
+						{% if not fan_para=='empty' %}
             <h3>{{fan_para.name}}</h3>
+						{% endif %}
 						<i class="icon-double-angle-right icon-2x"></i>
           </div>
 				</article>

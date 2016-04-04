@@ -19,6 +19,7 @@ body{
 .header{
   height: 20em;
   background-color: #FFFFFF;
+  margin-bottom: 40px;
 }
 .top-nav{
   padding-top: 10px;

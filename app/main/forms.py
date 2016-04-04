@@ -31,3 +31,9 @@ class NewBlogForm(Form):
 	submit = SubmitField(u'提交')
 class TestForm(Form):
     name = TextField('name', validators = [Required()])
+class NewPlanForm(Form):
+	name = StringField(u'标题',validators=[Required(),Length(0,64)])
+	description = TextAreaField(u'描述',validators=[Required()])
+	count = StringField(u'标签',validators=[Required()])
+class EditPlanForm(Form):
+	flag = BooleanField(u'已完成？')

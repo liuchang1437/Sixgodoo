@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from . import db
-from datetime import datetime
+from datetime import datetime,timedelta
 from markdown2 import markdown
 import bleach
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 from . import login_manager
+from math import ceil
 
 class Item(db.Model):
 	__tablename__ = 'items'
@@ -83,15 +84,38 @@ def load_user(user_id):
 class Plan(db.Model):
 	__tablename__ = 'plans'
 	id = db.Column(db.Integer, primary_key = True)
-	progress = db.Column(db.LargeBinary,default=0)
+	progress = db.Column(db.String(100),default='^')
 	name = db.Column(db.String, unique = True, index=True)
 	is_finished = db.Column(db.Boolean)
 	description = db.Column(db.Text)
 	count = db.Column(db.Integer)
+	now = db.Column(db.Integer,default=0)
+	timestamp = db.Column(db.DateTime,index=True,default=datetime.now)
 
 	def is_n(self,n):
-		return (not (self.progress & (1<<(n-1)) == 0))
+		if n==1 and len(self.progress)==1:
+			return False
+		return self.progress[n]=='1'
 	def set_n(self,n):
-		self.progress |= 1<<(n-1)
+		self.now=n
+		if n==len(self.progress):
+			self.progress+='1'
+		else:
+			for i in range(0,(n-len(self.progress))):
+				self.progress+='0'
+			self.progress+='1'
 	def __repr__(self):
 		return '<Plan %r>' % self.name
+
+	def cal_days(self,ed):
+		oneday=timedelta(days=1)
+		bd = datetime(self.timestamp.year,self.timestamp.month,self.timestamp.day)
+		ed = datetime(ed.year,ed.month,ed.day)
+		count=0
+		while bd!=ed:
+			ed=ed-oneday
+			count=count+1
+		return count
+
+	def col_count(self):
+		return ceil((float)(self.count)/7)

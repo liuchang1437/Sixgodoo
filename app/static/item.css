@@ -77,3 +77,13 @@
   text-align: center;
   display: block;
 }
+
+.plan-progress{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.icon-check-empty,.icon-sign-blank{
+  display: inline-block;
+  margin: 2px;
+}

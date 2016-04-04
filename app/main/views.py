@@ -3,18 +3,22 @@ from flask import render_template, session, redirect, url_for, flash,\
 	request,current_app
 from . import main
 from .forms import NewTagForm, NewCatForm, NewItemForm, NewBlogForm,\
-	QueryItemForm,TestForm
+	QueryItemForm,TestForm, NewPlanForm,EditPlanForm
 from .. import db
-from ..models import Blog, Item, Tag, Category
+from ..models import Blog, Item, Tag, Category, Plan
 from random import randint
 from markdown2 import markdown
 from flask.ext.login import login_required
+from datetime import datetime
 
 @main.route('/')
 def index():
 	fan_paras = Tag.query.filter_by(name=u'摘抄').first().items
 	fan_para_length = len(fan_paras)
-	fan_para = fan_paras[randint(0,fan_para_length-1)]
+	if fan_para_length>0:
+		fan_para = fan_paras[randint(0,fan_para_length-1)]
+	else:
+		fan_para='empty'
 	return render_template('index.html',title=u'主页 ',fan_para=fan_para)
 
 @main.route('/daily',methods=['GET','POST'])
@@ -207,9 +211,7 @@ def edit_blog(blog_id):
 	return render_template('new_blog_form.html',title=u'修改博客',form=form,categories=categories)
 
 
-@main.route('/plans')
-def plans():
-	return render_template('plans.html',title=u'计划')
+
 
 @main.route('/about')
 def about():
@@ -222,3 +224,38 @@ def test():
         flash('data_recieved is '+ form.name.data)
         return redirect('/test')
     return render_template('test.html',title = u'测试',form = form)
+
+@main.route('/plans',methods=['POST','GET'])
+def plans():
+	plans = Plan.query.all()
+	return render_template('plans.html',title=u'Plans',plans=plans)
+
+@main.route('/plans/new_plan',methods=['GET','POST'])
+@login_required
+def new_plan():
+	form = NewPlanForm()
+	if form.validate_on_submit():
+		plan = Plan(name=form.name.data,description=form.description.data,\
+			count=(int)(form.count.data))
+		db.session.add(plan)
+		db.session.commit()
+		flash('new plan!')
+		return redirect(url_for('main.plans'))
+	return render_template('new_plan_form.html',title=u'新建计划',form=form)
+
+@main.route('/plans/edit/<int:plan_id>',methods=['GET','POST'])
+@login_required
+def edit_plan(plan_id):
+	form = EditPlanForm()
+	plan = Plan.query.filter_by(id=plan_id).first()
+	print(datetime.now())
+	day = plan.cal_days(datetime.now())+1
+	if form.validate_on_submit():
+		flag = form.flag.data
+		if flag:
+			plan.set_n(day)
+		db.session.add(plan)
+		db.session.commit()
+		flash('plan has been edited!')
+		return redirect(url_for('main.plans'))
+	return render_template('edit_plan.html',title=u'修改计划',plan=plan,form=form,day=day)

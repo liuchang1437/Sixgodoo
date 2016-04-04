@@ -2,18 +2,56 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block topnav %}
 {% endblock %}
+{%block nav_extent%}
+ {% if current_user.is_authenticated %}
+ <a href={{url_for('main.new_plan')}} id="back-to-top" class="lg" title="新建计划">
+ 	<span class="glyphicon glyphicon-plus">
+ 	</span>
+ 	<!-- <i class="icon-home"></i>-->
+ </a>
+{% endif %}
+{%endblock%}
 {% block content %}
-<section style="margin-top:30px;">
-	<div class="container">
-		<div class="row">
-			<main class="col-md-8 col-md-offset-2">
-				<article class="post">
-					<div class="post-text">
-						<h1>这是计划首页，正在施工中...</h1>
+{% if plans %}
+{% for plan in plans %}
+<section >
+		<div class="container">
+			<div class="row">
+				<main class="col-md-8 col-md-offset-2">
+				<article class="post blogs-post">
+					<span class="round-date">
+						<span class="day" style="margin-top:15px;font-size:25px;">{{plan.count}}</span>
+					</span>
+					<header class="post-head">
+							<h1>{{plan.name}}</h1>
+					</header>
+					<div style="display:flex;">
+					<div class="plan-progress">
+							{% for i in range(1,plan.now + 1) %}
+							{% if plan.is_n(i) %}
+								<div class="icon-sign-blank" style="color:#44a340"></div>
+							{% else %}
+								<div class="icon-sign-blank" style="color:rgba(85, 85, 85, 0.53);"></div>
+							{% endif %}
+							{% endfor %}
+							{% for i in range(plan.now+1,plan.count+1) %}
+							<div class="icon-sign-blank" style="color:rgba(85, 85, 85, 0.53);"></div>
+							{% endfor %}
 					</div>
+				</div>
+				<div class="post-text">
+					<p>{{plan.description}}</p>
+				</div>
+				<div class="post-extent">
+				<a href={{url_for('main.edit_plan',plan_id=plan.id)}}>
+					<span class="icon-edit icon-large" title="编辑"></span>
+				</a>
+			</div>
 				</article>
 			</main>
 		</div>
 	</div>
 </section>
+{% endfor %}
+{% endif %}
 {% endblock %}

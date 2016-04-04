@@ -1,0 +1,42 @@
+{% extends "plans.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block topnav %}
+{% endblock %}
+{% block content %}
+	<section class="content-wrap" >
+		<div class="container">
+			<div class="row">
+				<main class="col-md-8 col-md-offset-2 main-content">
+					<article class="post tag-https" style="padding:10%;">
+							<form action="" method="post" name="blog_form">
+								{{form.hidden_tag()}}
+								<div class="form-group">
+    							<label for="blog-title">标题</label>
+    							<div>
+										<p>{{form.name(class="form-control",id="blog-title")}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+    							<label for="blog-abstract">摘要</label>
+    							<div>
+										<p>{{form.description(class="form-control",id="blog-abstract",rows="5")}}</p>
+									</div>
+								</div>
+								<div class="form-group">
+    							<label for="blog-text">计划多少天完成？</label>
+    							<div>
+										<p>{{form.count(class="form-control")}}</p>
+									</div>
+								</div>
+								<p><input class="btn btn-default"type="submit" value="提交"></p>
+							</form>
+					</article>
+				</main>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{%block scripts%}
+{{pagedown.include_pagedown()}}
+{%endblock%}
