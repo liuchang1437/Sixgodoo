@@ -228,8 +228,10 @@ def test():
 
 @main.route('/plans',methods=['POST','GET'])
 def plans():
-	plans = Plan.query.all()
-	return render_template('plans.html',title=u'Plans',plans=plans)
+	page = request.args.get('page',1,type=int)
+	pagination = Plan.query.order_by(Plan.timestamp.desc()).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+	plans = pagination.items
+	return render_template('plans.html',title=u'Plans',plans=plans,pagination=pagination)
 
 @main.route('/plans/new_plan',methods=['GET','POST'])
 @login_required

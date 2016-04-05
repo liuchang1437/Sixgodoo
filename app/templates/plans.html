@@ -24,6 +24,9 @@
 					</span>
 					<header class="post-head">
 							<h1>{{plan.name}}</h1>
+              <p class="post-time">
+								{{plan.timestamp.year}}年{{plan.timestamp.month}}月{{plan.timestamp.day}}日 {{plan.timestamp.hour}}时
+							</p>
 					</header>
 					<div style="display:flex;">
 					<div class="plan-progress">
@@ -42,16 +45,28 @@
 				<div class="post-text">
 					<p>{{plan.description}}</p>
 				</div>
+        {% if current_user.is_authenticated %}
 				<div class="post-extent">
-				<a href={{url_for('main.edit_plan',plan_id=plan.id)}}>
-					<span class="icon-edit icon-large" title="编辑"></span>
-				</a>
-			</div>
+				    <a href={{url_for('main.edit_plan',plan_id=plan.id)}}>
+					     <span class="icon-edit icon-large" title="编辑"></span>
+				    </a>
+			  </div>
+        {% endif %}
 				</article>
 			</main>
 		</div>
 	</div>
 </section>
 {% endfor %}
+{% endif %}
+{% endblock %}
+
+{% block page %}
+{% if pagination %}
+<div class="pagination my-pagination">
+	<div class="container">
+		{{macros.pagination_widget(pagination,'main.plans')}}
+	</div>
+</div>
 {% endif %}
 {% endblock %}
