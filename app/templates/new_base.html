@@ -6,11 +6,23 @@
 {% block head %}
   {{super()}}
 	<link href={{ url_for('static',filename='new_base.css') }} rel="stylesheet">
+  <style>
+    header img{
+      width: auto;
+      height: 280px;
+      display: block;
+      margin: 0 0 0 auto;
+    }
+    header > .container-fluid{
+      padding-right: 0;
+    }
+  </style>
 {% endblock %}
 
 {% block body %}
-<header class="header">
+<header class="header" >
   <div class="container-fluid">
+    <img src={{url_for('static',filename='header1_meitu_1.jpg')}}>
   </div>
 </header>
 {% block topnav %}{% endblock %}
