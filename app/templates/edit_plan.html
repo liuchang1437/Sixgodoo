@@ -8,20 +8,23 @@
 			<div class="row">
 				<main class="col-md-8 col-md-offset-2 main-content">
 					<article class="post tag-https" style="padding:10%;">
-            <h1>计划：{{plan.name}}</h1>
-              {% if plan.now<day and plan.now<plan.count%}
+						<div class="plan-head">
+            	<h1>{{plan.name}}</h1>
+						</div>
 							<form action="" method="post" name="blog_form">
 								{{form.hidden_tag()}}
-                <h2>今天是第{{day}}天，任务完成了吗？</h2>
+                <h2>今天是第{{day}}天</h2>
+								<div class="form-group">
+    							<div>
+										<p>{{form.text(class="form-control",rows="7")}}</p>
+									</div>
+								</div>
                 <ul class="list-inline">
 									<li>{{form.flag(class="checkbox",id="new-item-flags")}}</li>
                     <li>已完成？</li>
                 </ul>
 								<p><input class="btn btn-default"type="submit" value="提交"></p>
 							</form>
-              {% else %}
-              <h2>今天的计划已经完成！再接再厉！</h2>
-              {% endif %}
 					</article>
 				</main>
 			</div>

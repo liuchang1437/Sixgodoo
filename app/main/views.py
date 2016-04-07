@@ -3,9 +3,9 @@ from flask import render_template, session, redirect, url_for, flash,\
 	request,current_app
 from . import main
 from .forms import NewTagForm, NewCatForm, NewItemForm, NewBlogForm,\
-	QueryItemForm,TestForm, NewPlanForm,EditPlanForm
+	QueryItemForm,TestForm, NewPlanForm,EditPlanForm,DayForm
 from .. import db
-from ..models import Blog, Item, Tag, Category, Plan
+from ..models import Blog, Item, Tag, Category, Plan2, Day
 from random import randint
 from markdown2 import markdown
 from flask.ext.login import login_required
@@ -226,22 +226,16 @@ def test():
         return redirect('/test')
     return render_template('test.html',title = u'测试',form = form)
 
-@main.route('/plans',methods=['POST','GET'])
-def plans():
-	page = request.args.get('page',1,type=int)
-	pagination = Plan.query.order_by(Plan.timestamp.desc()).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
-	plans = pagination.items
-	return render_template('plans.html',title=u'计划',plans=plans,pagination=pagination)
-
 @main.route('/plans/new_plan',methods=['GET','POST'])
 @login_required
 def new_plan():
 	form = NewPlanForm()
 	if form.validate_on_submit():
-		plan = Plan(name=form.name.data,description=form.description.data,\
+		plan = Plan2(title=form.title.data,des=form.des.data,\
 			count=(int)(form.count.data))
 		db.session.add(plan)
 		db.session.commit()
+		plan.build_days()
 		flash('new plan!')
 		return redirect(url_for('main.plans'))
 	return render_template('new_plan_form.html',title=u'新建计划',form=form)
@@ -249,16 +243,26 @@ def new_plan():
 @main.route('/plans/edit/<int:plan_id>',methods=['GET','POST'])
 @login_required
 def edit_plan(plan_id):
-	form = EditPlanForm()
-	plan = Plan.query.filter_by(id=plan_id).first()
-	print(datetime.now())
-	day = plan.cal_days(datetime.now())+1
-	if form.validate_on_submit():
-		flag = form.flag.data
-		if flag:
-			plan.set_n(day)
-		db.session.add(plan)
+	form = DayForm()
+	plan = Plan2.query.filter_by(id=plan_id).first()
+	from_1stday = plan.cal_days(datetime.now())+1
+	if from_1stday<=plan.count and form.validate_on_submit():
+		day = plan.days[from_1stday-1]
+		day.flag = form.flag.data
+		day.text = form.text.data
+		db.session.add(day)
 		db.session.commit()
-		flash('plan has been edited!')
+		flash('Today\'s task has been edited!')
 		return redirect(url_for('main.plans'))
-	return render_template('edit_plan.html',title=u'修改计划',plan=plan,form=form,day=day)
+	return render_template('edit_plan.html',title=u'修改计划',plan=plan,form=form,day=from_1stday)
+
+@main.route('/plans',methods=['POST','GET'])
+def plans():
+	page = request.args.get('page',1,type=int)
+	pagination = Plan2.query.order_by(Plan2.timestamp.desc()).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+	plans = pagination.items
+	return render_template('plans.html',title=u'计划',plans=plans,pagination=pagination)
+@main.route('/day/<day_id>')
+def day(day_id):
+	day = Day.query.filter_by(id=day_id).first()
+	return render_template('day.html',day=day,title=u'第%s天' % day.id_in_plan)

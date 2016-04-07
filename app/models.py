@@ -119,3 +119,47 @@ class Plan(db.Model):
 
 	def col_count(self):
 		return ceil((float)(self.count)/7)
+
+class Plan2(db.Model):
+	__tablename__ = 'plans2'
+	id = db.Column(db.Integer, primary_key = True)
+	title = db.Column(db.String)
+	flag = db.Column(db.Boolean)
+	des = db.Column(db.Text)
+	count = db.Column(db.Integer)
+	timestamp = db.Column(db.DateTime,index=True,default=datetime.now)
+	days = db.relationship('Day',backref='plan2')
+
+	def __repr__(self):
+		return '<Plan2 %r>' % self.title
+	def build_days(self):
+		for i in range(0,self.count):
+			new_day = Day(id_in_plan=i+1,plan2_id=self.id)
+			db.session.add(new_day)
+		db.session.commit()
+	def is_n(self, n):
+		return days[n-1].flag
+	def cal_days(self,ed):
+		oneday=timedelta(days=1)
+		bd = datetime(self.timestamp.year,self.timestamp.month,self.timestamp.day)
+		ed = datetime(ed.year,ed.month,ed.day)
+		count=0
+		while bd!=ed:
+			ed=ed-oneday
+			count=count+1
+		return count
+
+class Day(db.Model):
+	__tablename__ = 'days'
+	id = db.Column(db.Integer,primary_key=True)
+	flag = db.Column(db.Boolean,default=False)
+	text = db.Column(db.Text)
+	html = db.Column(db.Text)
+	id_in_plan = db.Column(db.Integer)
+	plan2_id = db.Column(db.Integer,db.ForeignKey('plans2.id'))
+	def __repr__(self):
+		return '<Day %r>' % self.id_in_plan
+	@staticmethod
+	def on_changed_text(target,value,oldvalue,initiator):
+		target.html = markdown(value)
+db.event.listen(Day.text,'set',Day.on_changed_text)

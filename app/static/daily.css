@@ -16,6 +16,7 @@
   margin-bottom: 10px;
 	position:relative;
   box-shadow: 0 0 4px 1px #BBB;
+  overflow: auto;
 }
 .post-text i{
   color: #505050;
