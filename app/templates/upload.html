@@ -1,0 +1,29 @@
+{% extends "blogs.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block topnav %}
+{% endblock %}
+{% block nav_extent %}
+{% endblock %}
+{% block content %}
+<section style="margin-top:30px;">
+		<div class="container">
+			<div class="row">
+				<main class="col-md-8 col-md-offset-2">
+				<article class="post blogs-post" style="padding:10%;">
+          <h1>上传文件</h1>
+
+          <form action="" method=post enctype=multipart/form-data>
+            <div class="form-group">
+              <label>请输入文件名</label>
+              <p><input class=form-control type=text name=filename></p>
+            </div>
+            <p><input type=file name=file></p>
+            <p class="help-block">上传位置是static目录下</p>
+            <input type=submit value=上传 class="btn btn-default">
+          </form>
+				</article>
+			</main>
+		</div>
+	</div>
+</section>
+{% endblock %}

@@ -10,6 +10,8 @@ from random import randint
 from markdown2 import markdown
 from flask.ext.login import login_required
 from datetime import datetime
+import os
+from werkzeug import secure_filename
 
 @main.route('/')
 def index():
@@ -266,3 +268,17 @@ def plans():
 def day(day_id):
 	day = Day.query.filter_by(id=day_id).first()
 	return render_template('day.html',day=day,title=u'第%s天' % day.id_in_plan)
+
+
+@main.route('/upload',methods=['GET','POST'])
+@login_required
+def upload():
+	if request.method == 'POST':
+		file = request.files['file']
+		if file:
+			filename = secure_filename(request.form['filename'])
+			save_path=os.path.join(os.getcwd(),'app/static')
+			file.save(os.path.join(save_path,filename))
+			flash('uploaded at %s' %os.path.join(save_path,filename))
+			return redirect(url_for('main.upload'))
+	return render_template('upload.html',title=u'上传文件')
