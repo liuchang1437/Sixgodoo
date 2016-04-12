@@ -25,6 +25,7 @@
 <strong>项目地址</strong><br>
 <a style="color:#555"href="https://github.com/sixgodooo/Sixgodoo"><em>https://github.com/sixgodooo/Sixgodoo</em></a>
 </address>
+<address>
 <strong>博客地址</strong><br>
 <a style="color:#555"href="115.159.157.156"><em>http://115.159.157.156</em></a>
 </address>
