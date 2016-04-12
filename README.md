@@ -24,11 +24,11 @@
 <address>
 <strong>项目地址</strong><br>
 <a style="color:#555"href="https://github.com/sixgodooo/Sixgodoo"><em>https://github.com/sixgodooo/Sixgodoo</em></a>
-</address>
+</address><br>
 <address>
-<strong>博客地址</strong><br>
+<strong>博客地址</strong>
 <a style="color:#555"href="115.159.157.156"><em>http://115.159.157.156</em></a>
-</address>
-<address><strong>翔神</strong><br>
+</address><br>
+<address><strong>翔神</strong>
 <em>635325225@qq.com</em>
 </address>
