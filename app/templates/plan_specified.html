@@ -1,0 +1,53 @@
+{% extends "new_base.html" %}
+{% block head %}
+  {{super()}}
+	<link href={{ url_for('static',filename='css/plan.css') }} rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    {% if days %}
+        <div class="day day-xs col-sm-4">
+          <div class="wrapper">
+          <h1 id="plan_title">{{plan.title}}</h1>
+          <p>开始日期：{{plan.timestamp.year}}年{{plan.timestamp.month}}月{{plan.timestamp.day}}日</p>
+          <p>完成情况：{%if plan.flag%}已完成{%else%}未完成{%endif%}</p>
+          <p>计划说明：{{plan.des}}</p>
+          <div class="extent">
+            <ul class="list-inline">
+              {% if current_user.is_authenticated %}
+      				<li><a href={{url_for('main.edit_plan_des',plan_id=plan.id)}}>
+      					     <span class="icon-edit icon-large" title="编辑"></span></a></li>
+              {% endif %}
+            </ul>
+  			  </div>
+        </div>
+      </div>
+      {% for day in days %}
+
+        <div class="day day-xs col-sm-4">
+          <div class="wrapper">
+          <div class="title">
+            <h2>第&nbsp;<span class="day-num">{{day.id_in_plan}}</span>&nbsp;天</h2>
+          </div>
+          {% if day.html %}
+            <p>{{day.html | safe}}</p>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block page %}
+{% if pagination %}
+<div class="pagination my-pagination">
+	<div class="container">
+		{{macros.pagination_widget(pagination,'main.plan_specified',plan_id=plan.id)}}
+	</div>
+</div>
+{% endif %}
+{% endblock %}

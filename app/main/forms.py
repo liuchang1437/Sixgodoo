@@ -35,6 +35,7 @@ class NewPlanForm(Form):
 	title = StringField(u'标题',validators=[Required(),Length(0,64)])
 	des = TextAreaField(u'描述',validators=[Required()])
 	count = StringField(u'标签',validators=[Required()])
+	flag = BooleanField(u'已完成？')
 class EditPlanForm(Form):
 	flag = BooleanField(u'已完成？')
 class DayForm(Form):

@@ -23,7 +23,7 @@
 						<span class="day" style="margin-top:15px;font-size:25px;">{{plan.count}}</span>
 					</span>
 					<header class="post-head">
-							<h1>{{plan.title}}</h1>
+							<a href={{url_for('main.plan_specified',plan_id=plan.id)}}><h1>{{plan.title}}</h1></a>
               <p class="post-time">
 								{{plan.timestamp.year}}年{{plan.timestamp.month}}月{{plan.timestamp.day}}日 {{plan.timestamp.hour}}时
 							</p>
@@ -42,13 +42,15 @@
 				<div class="post-text">
 					<p>{{plan.des}}</p>
 				</div>
-        {% if current_user.is_authenticated %}
-				<div class="post-extent">
-				    <a href={{url_for('main.edit_plan',plan_id=plan.id)}}>
-					     <span class="icon-edit icon-large" title="编辑"></span>
-				    </a>
+        <div class="post-extent">
+          <ul class="list-inline">
+            <li><a href={{url_for('main.plan_specified',plan_id=plan.id)}}>查看全部</a></li>
+            {% if current_user.is_authenticated %}
+    				<li><a href={{url_for('main.edit_plan',plan_id=plan.id)}}>
+    					     <span class="icon-edit icon-large" title="编辑"></span></a></li>
+            {% endif %}
+          </ul>
 			  </div>
-        {% endif %}
 				</article>
 			</main>
 		</div>

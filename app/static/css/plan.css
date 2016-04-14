@@ -1,0 +1,38 @@
+.row{
+  font-size: 20px;
+}
+.wrapper{
+  box-shadow: 0 0 4px 1px #BBB;
+  padding: 20px 10px 20px 20px;
+  margin: 10px -10px;
+  background-color: #fff;
+  height: 300px;
+  overflow: auto;
+}
+@media (max-width:768px){
+  .day-xs{
+    margin: 10px  0;
+  }
+  .wrapper{
+    height: auto;
+  }
+}
+.extent a{
+  color: #959595;
+  font-size: 0.8em;
+  position: absolute;
+  bottom: 30px;
+}
+
+#plan_title{
+  text-align: center;
+  margin-bottom: 20px;
+}
+.day h2{
+  font-size: 25px;
+  display: inline;
+}
+.day-num{
+  font-size: 150%;
+  color: #4CAF50;
+}

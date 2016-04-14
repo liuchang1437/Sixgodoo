@@ -242,6 +242,26 @@ def new_plan():
 		return redirect(url_for('main.plans'))
 	return render_template('new_plan_form.html',title=u'新建计划',form=form)
 
+@main.route('/plans/edit_plan_des/<int:plan_id>',methods=['GET','POST'])
+@login_required
+def edit_plan_des(plan_id):
+	form = NewPlanForm()
+	plan = Plan2.query.filter_by(id=plan_id).first()
+	if form.validate_on_submit():
+		plan.title=form.title.data
+		plan.des=form.des.data
+		plan.count=(int)(form.count.data)
+		plan.flag = form.flag.data
+		db.session.add(plan)
+		db.session.commit()
+		flash('Edit plan!')
+		return redirect(url_for('main.plan_specified',plan_id=plan.id))
+	form.title.data=plan.title
+	form.des.data=plan.des
+	form.count.data=plan.count
+	form.flag.data=plan.flag
+	return render_template('new_plan_form.html',title=u'新建计划',form=form,edit=True)
+
 @main.route('/plans/edit/<int:plan_id>',methods=['GET','POST'])
 @login_required
 def edit_plan(plan_id):
@@ -258,7 +278,7 @@ def edit_plan(plan_id):
 		return redirect(url_for('main.plans'))
 	return render_template('edit_plan.html',title=u'修改计划',plan=plan,form=form,day=from_1stday)
 
-@main.route('/plans',methods=['POST','GET'])
+@main.route('/plans')
 def plans():
 	page = request.args.get('page',1,type=int)
 	pagination = Plan2.query.order_by(Plan2.timestamp.desc()).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
@@ -269,6 +289,13 @@ def day(day_id):
 	day = Day.query.filter_by(id=day_id).first()
 	return render_template('day.html',day=day,title=u'第%s天' % day.id_in_plan)
 
+@main.route('/plan_specified/<plan_id>')
+def plan_specified(plan_id):
+	plan = Plan2.query.filter_by(id=plan_id).first()
+	page = request.args.get('page',1, type=int)
+	pagination = Day.query.filter_by(plan2_id=plan_id).filter_by(flag=True).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+	days = pagination.items
+	return render_template('plan_specified.html',title=u'计划',plan=plan,days=days,pagination=pagination)
 
 @main.route('/upload',methods=['GET','POST'])
 @login_required
