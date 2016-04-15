@@ -8,8 +8,8 @@
 <div class="container-fluid">
   <div class="row">
     {% if days %}
-        <div class="day day-xs col-sm-4">
-          <div class="wrapper">
+      <div class="day day-xs day-sm">
+        <div class="wrapper">
           <h1 id="plan_title">{{plan.title}}</h1>
           <p>开始日期：{{plan.timestamp.year}}年{{plan.timestamp.month}}月{{plan.timestamp.day}}日</p>
           <p>完成情况：{%if plan.flag%}已完成{%else%}未完成{%endif%}</p>
@@ -25,12 +25,11 @@
         </div>
       </div>
       {% for day in days %}
-
-        <div class="day day-xs col-sm-4">
-          <div class="wrapper">
-          <div class="title">
-            <h2>第&nbsp;<span class="day-num">{{day.id_in_plan}}</span>&nbsp;天</h2>
-          </div>
+      <div class="day day-xs day-sm">
+        <div class="wrapper">
+        <div class="title">
+          <h2>第&nbsp;<span class="day-num">{{day.id_in_plan}}</span>&nbsp;天</h2>
+        </div>
           {% if day.html %}
             <p>{{day.html | safe}}</p>
           {% endif %}
