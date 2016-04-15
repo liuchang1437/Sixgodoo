@@ -16,10 +16,11 @@
           <p>计划说明：{{plan.des}}</p>
           <div class="extent">
             <ul class="list-inline">
+              <li>
               {% if current_user.is_authenticated %}
-      				<li><a href={{url_for('main.edit_plan_des',plan_id=plan.id)}}>
-      					     <span class="icon-edit icon-large" title="编辑"></span></a></li>
+      				    <a href={{url_for('main.edit_plan_des',plan_id=plan.id)}}><span class="icon-edit icon-large" title="编辑"></span></a>
               {% endif %}
+              </li>
             </ul>
   			  </div>
         </div>

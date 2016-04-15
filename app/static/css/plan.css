@@ -7,6 +7,7 @@
   background-color: #fff;
   height: auto;
   overflow: auto;
+  position: relative;
 }
 @media (max-width:768px){
   .day-xs{
@@ -23,7 +24,7 @@
   color: #959595;
   font-size: 0.8em;
   position: absolute;
-  bottom: 30px;
+  bottom: 15px;
 }
 
 #plan_title{

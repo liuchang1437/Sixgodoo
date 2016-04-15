@@ -4,3 +4,4 @@ venv/*
 data-dev.sqlite
 logs/
 migrations/*
+app/static/
